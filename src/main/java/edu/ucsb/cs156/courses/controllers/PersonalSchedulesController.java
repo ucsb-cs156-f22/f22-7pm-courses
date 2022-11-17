@@ -3,6 +3,7 @@ package edu.ucsb.cs156.courses.controllers;
 import edu.ucsb.cs156.courses.entities.PersonalSchedule;
 import edu.ucsb.cs156.courses.entities.User;
 import edu.ucsb.cs156.courses.errors.EntityNotFoundException;
+import edu.ucsb.cs156.courses.errors.NameAndQuarterExistsException;
 import edu.ucsb.cs156.courses.models.CurrentUser;
 import edu.ucsb.cs156.courses.repositories.PersonalScheduleRepository;
 import io.swagger.annotations.Api;
@@ -138,6 +139,16 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setName(incomingSchedule.getName());
         personalschedule.setDescription(incomingSchedule.getDescription());
         personalschedule.setQuarter(incomingSchedule.getQuarter());
+
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
+
+        for (PersonalSchedule schedule : allSchedules) {
+          if (personalschedule.getName() == schedule.getName()) {
+            if (personalschedule.getQuarter() == schedule.getQuarter()) {
+              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+            }
+          }
+        }
 
         personalscheduleRepository.save(personalschedule);
 
