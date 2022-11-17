@@ -88,8 +88,9 @@ public class PersonalSchedulesController extends ApiController {
             @ApiParam("quarter") @RequestParam String quarter) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
-
+              
         Iterable<PersonalSchedule> personalschedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
+        
         for (PersonalSchedule ps : personalschedules) {
           if (ps.getName() == name && ps.getQuarter() == quarter) {
             //a schedule with the same name and quarter already exist, so throw exception
