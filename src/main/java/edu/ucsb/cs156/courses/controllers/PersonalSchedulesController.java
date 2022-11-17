@@ -90,10 +90,10 @@ public class PersonalSchedulesController extends ApiController {
         log.info("currentUser={}", currentUser);
 
         Iterable<PersonalSchedule> personalschedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
-        for (PersonalSchedule p : personalschedules) {
-          if (p.getName() == name && p.getQuarter() == quarter) {
+        for (PersonalSchedule ps : personalschedules) {
+          if (ps.getName() == name && ps.getQuarter() == quarter) {
             //a schedule with the same name and quarter already exist, so throw exception
-            
+            throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
           }
         }
 
