@@ -89,6 +89,14 @@ public class PersonalSchedulesController extends ApiController {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
 
+        Iterable<PersonalSchedule> personalschedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
+        for (PersonalSchedule ps : personalschedules) {
+          if (ps.getName() == name && ps.getQuarter() == quarter) {
+            //a schedule with the same name and quarter already exist, so throw exception
+            throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
+          }
+        }
+
         PersonalSchedule personalschedule = new PersonalSchedule();
         personalschedule.setUser(currentUser.getUser());
         personalschedule.setName(name);
@@ -167,6 +175,16 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setName(incomingSchedule.getName());
         personalschedule.setDescription(incomingSchedule.getDescription());
         personalschedule.setQuarter(incomingSchedule.getQuarter());
+
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAll();
+
+        for (PersonalSchedule schedule : allSchedules) {
+          if (personalschedule.getName() == schedule.getName()) {
+            if (personalschedule.getQuarter() == schedule.getQuarter()) {
+              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+            }
+          }
+        }
 
         personalscheduleRepository.save(personalschedule);
 
