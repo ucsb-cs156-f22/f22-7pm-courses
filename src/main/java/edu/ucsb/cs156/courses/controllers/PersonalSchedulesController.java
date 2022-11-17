@@ -2,6 +2,7 @@ package edu.ucsb.cs156.courses.controllers;
 
 import edu.ucsb.cs156.courses.entities.PersonalSchedule;
 import edu.ucsb.cs156.courses.entities.User;
+import edu.ucsb.cs156.courses.errors.CharLimitExceededException;
 import edu.ucsb.cs156.courses.errors.EntityNotFoundException;
 import edu.ucsb.cs156.courses.models.CurrentUser;
 import edu.ucsb.cs156.courses.repositories.PersonalScheduleRepository;
@@ -87,6 +88,10 @@ public class PersonalSchedulesController extends ApiController {
             @ApiParam("quarter") @RequestParam String quarter) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
+
+        if (name.length() > 15) {
+          throw new CharLimitExceededException(name);
+        }
 
         PersonalSchedule personalschedule = new PersonalSchedule();
         personalschedule.setUser(currentUser.getUser());
