@@ -556,4 +556,22 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("PersonalSchedule with id 77 not found", json.get("message"));
     }
 
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void apiCoursesUserCreatesCourseWithInvalidPSID() throws Exception {
+        // arrange
+        User u = currentUserService.getCurrentUser().getUser();
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/personalschedules/post?description=desodknajkf&name=ThisNameIsLongerThanFifteenChars&quarter=W22")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("Name: ThisNameIsLongerThanFifteenChars too long (Name must be no more than 15 characters)", json.get("message"));
+        assertEquals("CharLimitExceededException", json.get("type"));
+    }
+
 }
