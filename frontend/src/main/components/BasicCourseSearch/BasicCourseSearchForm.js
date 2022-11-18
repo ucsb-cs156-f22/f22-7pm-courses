@@ -11,7 +11,7 @@ import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown";
 import SinglePersonalScheduleDropdown from "../PersonalSchedules/SinglePersonalScheduleDropdown"; //
 
 import SingleLevelDropdown from "../Levels/SingleLevelDropdown";
-import { useBackendMutation } from "main/utils/useBackend";
+import { useBackendMutation, useBackend } from "main/utils/useBackend";
 
 const BasicCourseSearchForm = ({ fetchJSON }) => {
 
@@ -23,6 +23,15 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
   // Stryker enable OptionalChaining
 
   const quarters = quarterRange(startQtr, endQtr);
+
+  const { data: personalSchedules, error: _error, status: _status } =
+  useBackend(
+      // Stryker disable next-line all : don't test internal caching of React Query
+      ["/api/personalschedules/all"],
+      { method: "GET", url: "/api/personalschedules/all" },
+      []
+  );
+
 
   // Stryker disable all : not sure how to test/mock local storage
   const localSubject = localStorage.getItem("BasicSearch.Subject");
@@ -38,19 +47,19 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
     params: {},
   });
 
-  const getObjectToAxiosParams2 = () => ({ //
-    url: "/api/personalschedules/all",
-    method: "GET",
-    params: {},
-  });
+  // const getObjectToAxiosParams2 = () => ({ //
+  //   url: "/api/personalschedules/all",
+  //   method: "GET",
+  //   params: {},
+  // });
 
   const onSuccess = (listSubjects) => {
     setSubjects(listSubjects);
   };
 
-  const onSuccess2 = (listPersonalSchedules) => { //
-    setPersonalSchedules(listPersonalSchedules);
-  };
+  // const onSuccess2 = (listPersonalSchedules) => { //
+  //   setPersonalSchedules(listPersonalSchedules);
+  // };
 
 
 
@@ -61,16 +70,16 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
     []
   );
 
-  const getMutation2 = useBackendMutation( //
-    getObjectToAxiosParams2,
-    { onSuccess2 },
-    // Stryker disable next-line all : hard to set up test for caching
-    []
-  );
+  // const getMutation2 = useBackendMutation( //
+  //   getObjectToAxiosParams2,
+  //   { onSuccess2 },
+  //   // Stryker disable next-line all : hard to set up test for caching
+  //   []
+  // );
 
   useEffect(() => {
     getMutation.mutate();
-    getMutation2.mutate(); //
+    // getMutation2.mutate(); //
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,7 +88,7 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
   const [subjects, setSubjects] = useState([]);
 
   const [personalSchedule, setPersonalSchedule] = useState(localPersonalSchedule || {}); //
-  const [personalSchedules, setPersonalSchedules] = useState([]); //
+  // const [personalSchedules, setPersonalSchedules] = useState([]); //
 
   const [level, setLevel] = useState(localLevel || "U");
 
