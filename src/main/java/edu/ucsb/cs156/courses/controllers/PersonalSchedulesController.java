@@ -151,8 +151,8 @@ public class PersonalSchedulesController extends ApiController {
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
 
         for (PersonalSchedule schedule : allSchedules) {
-          if (personalschedule.getName() == schedule.getName()) {
-            if (personalschedule.getQuarter() == schedule.getQuarter()) {
+          if (personalschedule.getName().equals(schedule.getName())) {
+            if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
               throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
             }
           }
@@ -179,8 +179,8 @@ public class PersonalSchedulesController extends ApiController {
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAll();
 
         for (PersonalSchedule schedule : allSchedules) {
-          if (personalschedule.getName() == schedule.getName()) {
-            if (personalschedule.getQuarter() == schedule.getQuarter()) {
+          if (personalschedule.getName().equals(schedule.getName())) {
+            if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
               throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
             }
           }

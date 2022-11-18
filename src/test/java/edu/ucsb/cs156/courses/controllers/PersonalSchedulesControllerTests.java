@@ -490,6 +490,41 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("PersonalSchedule with id 31 not found", json.get("message"));
     }
 
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void api_schedules__user_logged_in__cannot_put_schedule_that_already_exists() throws Exception {
+        // arrange
+
+        User user = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
+
+        // String ps1String = mapper.writeValueAsString(ps1);
+        String ps2String = mapper.writeValueAsString(ps2);
+
+        when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(ps1, ps2));
+
+        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/personalschedules/user?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(ps2String)
+                        .with(csrf()))
+                .andExpect(status().is(404)).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).findByIdAndUser(77L, user);
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("NameAndQuarterExistsException", json.get("type"));
+    }
+
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
@@ -554,6 +589,48 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         Map<String, Object> json = responseToJson(response);
         assertEquals("EntityNotFoundException", json.get("type"));
         assertEquals("PersonalSchedule with id 77 not found", json.get("message"));
+    }
+
+
+    // The big idea here: When the put for admin searches for some schedule, it will return a schedule
+    // When the API performs findAll, it will have two schedules: one that is different from the searched schedule, but one that has the same values as the searched schedule. 
+    // The test will try to update the searched schedule to be the same as the different schedule, but it should fail and throw an exception
+
+    // TODO: Create two schedules
+    // Call 
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void api_schedules__admin_logged_in__cannot_put_schedule_that_already_exists() throws Exception {
+        // arrange
+
+        User user = User.builder().id(255L).build();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
+
+        // String ps1String = mapper.writeValueAsString(ps1);
+        String ps2String = mapper.writeValueAsString(ps2);
+
+        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(ps1, ps2));
+
+        when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/personalschedules/admin?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(ps2String)
+                        .with(csrf()))
+                .andExpect(status().is(404)).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).findById(77L);
+        verify(personalscheduleRepository, times(1)).findAll();
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
 }
