@@ -511,7 +511,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                put("/api/personalschedules/user?id=77")
+                put("/api/personalschedules?id=77")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(ps2String)
