@@ -1,4 +1,5 @@
 import { compareValues } from "main/utils/sortHelper";
+import { yyyyqToQyy } from "main/utils/quarterUtilities";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
@@ -40,7 +41,7 @@ const SinglePersonalScheduleDropdown = ({
           const key = `${controlId}-option-${i}`;
           return (
             <option key={key} data-testid={key} value={object.id}>
-              {object.id} - {object.name}
+              {object.id} - {yyyyqToQyy(object.quarter)} - {object.name}
             </option>
           );
         })}

@@ -47,21 +47,9 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
     params: {},
   });
 
-  // const getObjectToAxiosParams2 = () => ({ //
-  //   url: "/api/personalschedules/all",
-  //   method: "GET",
-  //   params: {},
-  // });
-
   const onSuccess = (listSubjects) => {
     setSubjects(listSubjects);
   };
-
-  // const onSuccess2 = (listPersonalSchedules) => { //
-  //   setPersonalSchedules(listPersonalSchedules);
-  // };
-
-
 
   const getMutation = useBackendMutation(
     getObjectToAxiosParams,
@@ -70,16 +58,8 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
     []
   );
 
-  // const getMutation2 = useBackendMutation( //
-  //   getObjectToAxiosParams2,
-  //   { onSuccess2 },
-  //   // Stryker disable next-line all : hard to set up test for caching
-  //   []
-  // );
-
   useEffect(() => {
     getMutation.mutate();
-    // getMutation2.mutate(); //
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -94,7 +74,7 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchJSON(event, { quarter, subject, level, personalSchedule });
+    fetchJSON(event, { quarter, subject, level });
   };
 
   // Stryker disable all : Stryker is testing by changing the padding to 0. But this is simply a visual optimization as it makes it look better
