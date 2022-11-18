@@ -591,12 +591,6 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("PersonalSchedule with id 77 not found", json.get("message"));
     }
 
-
-    // The big idea here: When the put for admin searches for some schedule, it will return a schedule
-    // When the API performs findAll, it will have two schedules: one that is different from the searched schedule, but one that has the same values as the searched schedule. 
-    // The test will try to update the searched schedule to be the same as the different schedule, but it should fail and throw an exception
-
-    // TODO: Create two schedules
     // Call 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
