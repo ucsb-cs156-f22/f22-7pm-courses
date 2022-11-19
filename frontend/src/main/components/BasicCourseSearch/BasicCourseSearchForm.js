@@ -17,7 +17,6 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
   // Stryker disable OptionalChaining
   const startQtr = systemInfo?.startQtrYYYYQ || "20211";
   const endQtr = systemInfo?.endQtrYYYYQ || "20214";
-  // const sourceRepoUrl = systemInfo?.sourceRepoUrl || "https://github.com/ucsb-cs156-s22/s22-4pm-courses";
   // Stryker enable OptionalChaining
 
   const quarters = quarterRange(startQtr, endQtr);
