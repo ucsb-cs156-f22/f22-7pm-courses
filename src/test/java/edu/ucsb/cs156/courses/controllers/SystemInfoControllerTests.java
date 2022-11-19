@@ -33,6 +33,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();
@@ -59,6 +60,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();
@@ -84,6 +86,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();

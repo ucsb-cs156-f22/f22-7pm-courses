@@ -21,6 +21,9 @@ public class SystemInfoServiceImpl extends SystemInfoService {
   @Value("${app.showSwaggerUILink:false}")
   private boolean showSwaggerUILink;
 
+  @Value("${app.sourceRepoUrl:https://github.com/ucsb-cs156-s22/s22-4pm-courses}")
+  private String sourceRepoUrl;
+
   @Value("${app.startQtrYYYYQ:20221}")
   private String startQtrYYYYQ;
 
@@ -31,6 +34,7 @@ public class SystemInfoServiceImpl extends SystemInfoService {
     SystemInfo si = SystemInfo.builder()
     .springH2ConsoleEnabled(this.springH2ConsoleEnabled)
     .showSwaggerUILink(this.showSwaggerUILink)
+    .sourceRepoUrl(this.sourceRepoUrl)
     .startQtrYYYYQ(this.startQtrYYYYQ)
     .endQtrYYYYQ(this.endQtrYYYYQ)
     .build();
