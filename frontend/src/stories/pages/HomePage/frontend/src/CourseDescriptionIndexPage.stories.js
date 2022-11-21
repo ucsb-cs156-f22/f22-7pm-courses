@@ -1,13 +1,13 @@
 import React from 'react';
 
-import CourseDescriptionIndexPage from "main/pages/CourseDescriptions/CourseDescriptionIndexPage";
+import BasicCourseSearchIndexPage from "main/pages/BasicCourseSearch/BasicCourseSearchIndexPage";
 
 export default {
-    title: 'pages/CourseDescriptionIndexPage/CourseDescriptionIndexPage',
-    component: CourseDescriptionIndexPage
+    title: 'pages/BasicCourseSearch/BasicCourseSearchIndexPage',
+    component: BasicCourseSearchIndexPage
 };
 
-const Template = () => <CourseDescriptionIndexPage />;
+const Template = () => <BasicCourseSearchIndexPage />;
 
 export const Default = Template.bind({});
 
