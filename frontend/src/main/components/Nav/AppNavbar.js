@@ -73,8 +73,8 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
             </Nav>
 
             <Nav className="mr-auto">
-              <NavDropdown title="Section Searches" id="appnavbar-section-searches-dropdown" data-testid="appnavbar-section-searches-dropdown" >
-                <NavDropdown.Item href="/sectionsearches/search" data-testid="appnavbar-section-searches-search">Search</NavDropdown.Item>
+              <NavDropdown title="Course Searches" id="appnavbar-course-searches-dropdown" data-testid="appnavbar-course-searches-dropdown" >
+                <NavDropdown.Item href="/coursesearches/search" data-testid="appnavbar-course-searches-search">Search</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 

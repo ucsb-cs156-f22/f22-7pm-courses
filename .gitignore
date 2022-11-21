@@ -4,8 +4,9 @@
 # Stryker reports
 
 frontend/.stryker-tmp
+/.stryker-tmp
 frontend/reports
-
+.history
 # Don't check in a built storybook #
 
 frontend/storybook-static
