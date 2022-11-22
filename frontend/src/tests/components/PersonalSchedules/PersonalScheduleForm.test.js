@@ -76,7 +76,7 @@ describe("PersonalScheduleForm tests", () => {
 
         fireEvent.click(submitButton);
 
-        expect(await screen.findByText(/Name of less than 15 characters is required./)).toBeInTheDocument();
+        expect(await screen.findByText(/Name of up to 15 characters is required./)).toBeInTheDocument();
         expect(screen.getByText(/Description is required./)).toBeInTheDocument();
     });
 
