@@ -558,21 +558,45 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER" })
     @Test
-    public void apiPersonalScheduleUserCreatesScheduleWithInvalidName() throws Exception {
+    public void api_schedule_user_post_invalid_name() throws Exception {
         // arrange
         User u = currentUserService.getCurrentUser().getUser();
 
         // act
         // ThisSixteenChars -> exactly 16 characters to consider boundary change in mutation tests
         MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?description=desodknajkf&name=ThisSixteenChars&quarter=W22")
+                post("/api/personalschedules/post?description=theDescription&name=ThisNameIsWayTooLong&quarter=W22")
                         .with(csrf()))
                 .andExpect(status().isNotFound()).andReturn();
 
         // assert
         Map<String, Object> json = responseToJson(response);
-        assertEquals("Name: ThisSixteenChars too long (Name must be no more than 15 characters)", json.get("message"));
+        assertEquals("Name: ThisNameIsWayTooLong too long (Name must be no more than 15 characters)", json.get("message"));
         assertEquals("CharLimitExceededException", json.get("type"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void api_schedules_post_fifteen_char_name() throws Exception {
+        // arrange
+
+        User thisUser = currentUserService.getCurrentUser().getUser();
+
+        PersonalSchedule expectedSchedule = PersonalSchedule.builder().name("15 Characters!!").description("Test Description").quarter("20222").user(thisUser).id(0L).build();
+
+        when(personalscheduleRepository.save(eq(expectedSchedule))).thenReturn(expectedSchedule);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/personalschedules/post?name=15 Characters!!&description=Test Description&quarter=20222")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).save(expectedSchedule);
+        String expectedJson = mapper.writeValueAsString(expectedSchedule);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
     }
 
 }
