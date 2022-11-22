@@ -558,19 +558,20 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER" })
     @Test
-    public void apiCoursesUserCreatesCourseWithInvalidPSID() throws Exception {
+    public void apiPersonalScheduleUserCreatesScheduleWithInvalidName() throws Exception {
         // arrange
         User u = currentUserService.getCurrentUser().getUser();
 
         // act
+        // ThisSixteenChars -> exactly 16 characters to consider boundary change in mutation tests
         MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?description=desodknajkf&name=ThisNameIsLongerThanFifteenChars&quarter=W22")
+                post("/api/personalschedules/post?description=desodknajkf&name=ThisSixteenChars&quarter=W22")
                         .with(csrf()))
                 .andExpect(status().isNotFound()).andReturn();
 
         // assert
         Map<String, Object> json = responseToJson(response);
-        assertEquals("Name: ThisNameIsLongerThanFifteenChars too long (Name must be no more than 15 characters)", json.get("message"));
+        assertEquals("Name: ThisSixteenChars too long (Name must be no more than 15 characters)", json.get("message"));
         assertEquals("CharLimitExceededException", json.get("type"));
     }
 

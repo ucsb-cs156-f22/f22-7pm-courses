@@ -89,7 +89,7 @@ public class PersonalSchedulesController extends ApiController {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
 
-        if (name.length() > 15) {
+        if (name.length() >= 15) {
           throw new CharLimitExceededException(name);
         }
 
