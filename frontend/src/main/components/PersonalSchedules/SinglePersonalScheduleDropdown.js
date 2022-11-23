@@ -1,4 +1,3 @@
-import { compareValues } from "main/utils/sortHelper";
 import { yyyyqToQyy } from "main/utils/quarterUtilities";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
@@ -26,8 +25,6 @@ const SinglePersonalScheduleDropdown = ({
       onChange(event);
     }
   };
-
-  personalSchedules.sort(compareValues("id"));
 
   return (
     <Form.Group controlId={controlId}>

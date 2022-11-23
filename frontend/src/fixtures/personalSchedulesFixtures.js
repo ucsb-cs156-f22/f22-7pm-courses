@@ -5,7 +5,15 @@ const personalSchedulesFixtures = {
         "description": "TestDescription",
         "quarter": "W08"
     },
-    twoPersonalSchedules: [
+    onePersonalScheduleArray: [
+        {
+        "id": 1,
+        "name": "TestNameA",
+        "description": "TestDescriptionA",
+        "quarter": "W08"
+        }
+    ],
+    threePersonalSchedules: [
         {
             "id": 1,
             "name": "TestName1",
