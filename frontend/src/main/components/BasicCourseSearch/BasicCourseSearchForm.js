@@ -7,9 +7,8 @@ import { quarterRange } from "main/utils/quarterUtilities";
 import { useSystemInfo } from "main/utils/systemInfo";
 import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
 import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown";
-import SinglePersonalScheduleDropdown from "../PersonalSchedules/SinglePersonalScheduleDropdown"; //
 import SingleLevelDropdown from "../Levels/SingleLevelDropdown";
-import { useBackendMutation, useBackend } from "main/utils/useBackend";
+import { useBackendMutation } from "main/utils/useBackend";
 
 const BasicCourseSearchForm = ({ fetchJSON }) => {
 
@@ -22,18 +21,8 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
 
   const quarters = quarterRange(startQtr, endQtr);
 
-  const { data: personalSchedules, error: _error, status: _status } =
-  useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
-      ["/api/personalschedules/all"],
-      { method: "GET", url: "/api/personalschedules/all" },
-      []
-  );
-
-
   // Stryker disable all : not sure how to test/mock local storage
   const localSubject = localStorage.getItem("BasicSearch.Subject");
-  const localPersonalSchedule = localStorage.getItem("BasicSearch.PersonalSchedule"); //
   const localQuarter = localStorage.getItem("BasicSearch.Quarter");
   const localLevel = localStorage.getItem("BasicSearch.CourseLevel");
 
@@ -46,6 +35,8 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
   const onSuccess = (listSubjects) => {
     setSubjects(listSubjects);
   };
+
+
 
   const getMutation = useBackendMutation(
     getObjectToAxiosParams,
@@ -62,12 +53,11 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
   const [quarter, setQuarter] = useState(localQuarter || quarters[0].yyyyq);
   const [subject, setSubject] = useState(localSubject || {});
   const [subjects, setSubjects] = useState([]);
-  const [personalSchedule, setPersonalSchedule] = useState(localPersonalSchedule || {}); //
   const [level, setLevel] = useState(localLevel || "U");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchJSON(event, { quarter, subject, level }); //add personalSchedule param?
+    fetchJSON(event, { quarter, subject, level });
   };
 
   // Stryker disable all : Stryker is testing by changing the padding to 0. But this is simply a visual optimization as it makes it look better
@@ -97,14 +87,6 @@ const BasicCourseSearchForm = ({ fetchJSON }) => {
               level={level}
               setLevel={setLevel}
               controlId={"BasicSearch.Level"}
-            />
-          </Col>
-          <Col md="auto">
-            <SinglePersonalScheduleDropdown
-              personalSchedules={personalSchedules}
-              personalSchedule={personalSchedule}
-              setPersonalSchedule={setPersonalSchedule}
-              controlId={"BasicSearch.PersonalSchedule"}
             />
           </Col>
         </Row>
