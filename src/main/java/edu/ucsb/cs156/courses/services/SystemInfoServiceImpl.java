@@ -21,7 +21,7 @@ public class SystemInfoServiceImpl extends SystemInfoService {
   @Value("${app.showSwaggerUILink:false}")
   private boolean showSwaggerUILink;
 
-  @Value("${app.sourceRepoUrl:https://github.com/ucsb-cs156-s22/s22-4pm-courses}")
+  @Value("${app.sourceRepoUrl:https://github.com/ucsb-cs156/proj-courses}")
   private String sourceRepoUrl;
 
   @Value("${app.startQtrYYYYQ:20221}")

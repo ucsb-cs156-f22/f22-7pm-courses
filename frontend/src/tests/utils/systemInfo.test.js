@@ -33,7 +33,7 @@ describe("utils/systemInfo tests", () => {
                 initialData:true,   
                 springH2ConsoleEnabled: false,
                 showSwaggerUILink: false,
-                sourceRepoUrl: "https://github.com/ucsb-cs156-s22/s22-4pm-courses",
+                sourceRepoUrl: "https://github.com/ucsb-cs156/proj-courses",
                 startQtrYYYYQ: "20221",
                 endQtrYYYYQ: "20222"  
             });
@@ -95,7 +95,7 @@ describe("utils/systemInfo tests", () => {
             expect(result.current.data).toEqual({  
                 springH2ConsoleEnabled: false,
                 showSwaggerUILink: false,
-                sourceRepoUrl : "https://github.com/ucsb-cs156-s22/s22-4pm-courses",
+                sourceRepoUrl : "https://github.com/ucsb-cs156/proj-courses",
                 startQtrYYYYQ: "20221",
                 endQtrYYYYQ: "20222"
             });

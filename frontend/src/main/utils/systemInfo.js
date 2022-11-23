@@ -12,7 +12,7 @@ export function useSystemInfo() {
       return {  
         springH2ConsoleEnabled: false,
         showSwaggerUILink: false,
-        sourceRepoUrl:"https://github.com/ucsb-cs156-s22/s22-4pm-courses",
+        sourceRepoUrl:"https://github.com/ucsb-cs156/proj-courses",
         startQtrYYYYQ: "20221",
         endQtrYYYYQ: "20222"  
       };
@@ -22,7 +22,7 @@ export function useSystemInfo() {
       initialData:true, 
       springH2ConsoleEnabled: false,
       showSwaggerUILink: false,
-      sourceRepoUrl:"https://github.com/ucsb-cs156-s22/s22-4pm-courses",
+      sourceRepoUrl:"https://github.com/ucsb-cs156/proj-courses",
       startQtrYYYYQ: "20221",
       endQtrYYYYQ: "20222"  
     }
