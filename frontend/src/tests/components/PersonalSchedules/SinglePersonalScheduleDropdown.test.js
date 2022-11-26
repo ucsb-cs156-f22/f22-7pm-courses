@@ -40,7 +40,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.onePersonalScheduleArray}
         personalSchedule={personalSchedulesFixtures.onePersonalScheduleArray}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
   });
@@ -51,7 +51,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
   });
@@ -62,7 +62,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
     
@@ -80,7 +80,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
         onChange={onChange}
       />
     );
@@ -103,7 +103,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
     
@@ -116,11 +116,11 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
 
-    const expectedKey = "ssd1-option-0";
+    const expectedKey = "psd1-option-0";
     await waitFor(() => expect(screen.getByTestId(expectedKey).toBeInTheDocument));
   });
 
@@ -136,7 +136,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
 
@@ -155,7 +155,7 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={personalSchedulesFixtures.threePersonalSchedules}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
 
@@ -170,11 +170,11 @@ describe("SinglePersonalScheduleDropdown tests", () => {
         personalSchedules={[]}
         personalSchedule={personalSchedule}
         setPersonalSchedule={setPersonalSchedule}
-        controlId="ssd1"
+        controlId="psd1"
       />
     );
 
-    const expectedKey = "ssd1";
+    const expectedKey = "psd1";
     expect(screen.queryByTestId(expectedKey)).toBeNull();
   });
 });
