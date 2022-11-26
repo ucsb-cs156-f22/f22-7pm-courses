@@ -28,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Api(description = "PersonalSchedules")
@@ -88,10 +91,11 @@ public class PersonalSchedulesController extends ApiController {
             @ApiParam("quarter") @RequestParam String quarter) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
-
-        Iterable<PersonalSchedule> personalschedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
-        for (PersonalSchedule ps : personalschedules) {
-          if (ps.getName() == name && ps.getQuarter() == quarter) {
+        
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
+        
+        for (PersonalSchedule ps : allSchedules) {
+          if (ps.getName().equals(name) && ps.getQuarter().equals(quarter)) {
             //a schedule with the same name and quarter already exist, so throw exception
             throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
           }
