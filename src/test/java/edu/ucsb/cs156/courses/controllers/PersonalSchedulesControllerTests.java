@@ -643,7 +643,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
-                .andExpect(status().isNotFound()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
@@ -667,7 +667,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
-                .andExpect(status().isNotFound()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
