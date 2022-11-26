@@ -23,7 +23,7 @@ const Template = (args) => {
 
 export const OnePersonalSchedule = Template.bind({});
 OnePersonalSchedule.args = {
-    personalSchedules: personalSchedulesFixtures.onePersonalSchedule
+    personalSchedules: personalSchedulesFixtures.onePersonalScheduleArray
 };
 
 export const ThreePersonalSchedules = Template.bind({});
