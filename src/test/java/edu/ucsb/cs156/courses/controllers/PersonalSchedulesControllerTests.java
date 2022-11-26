@@ -627,4 +627,52 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void api_schedules_post__user_logged_in_cannot_post_schedule_if_name_and_quarter_already_exists() throws Exception {
+        // arrange
+        User user = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule p1 = PersonalSchedule.builder().name("Name1").description("Description1").quarter("20222").user(user).id(1L).build();
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(p1));
+
+        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("NameAndQuarterExistsException", json.get("type"));
+    }
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void api_schedules_post__admin_logged_in_cannot_post_schedule_if_name_and_quarter_already_exists() throws Exception {
+        // arrange
+        User user = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule p1 = PersonalSchedule.builder().name("Name1").description("Description1").quarter("20222").user(user).id(1L).build();
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(p1));
+
+        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("NameAndQuarterExistsException", json.get("type"));
+    }
+
 }
