@@ -19,7 +19,7 @@ describe("CourseForm tests", () => {
             </Router>
         );
 
-        expect(await screen.findByText(/Personal Schedule ID/)).toBeInTheDocument();
+        expect(await screen.findByText(/Personal Schedule/)).toBeInTheDocument();
         expect(screen.getByText(/Enrollment Code/)).toBeInTheDocument();
         expect(screen.getByText(/Create/)).toBeInTheDocument();
     });
@@ -47,7 +47,6 @@ describe("CourseForm tests", () => {
 
         fireEvent.click(submitButton);
 
-        expect(await screen.findByText(/Personal Schedule ID is required./)).toBeInTheDocument();
         expect(screen.getByText(/Enroll Code is required./)).toBeInTheDocument();
     });
 
@@ -72,7 +71,6 @@ describe("CourseForm tests", () => {
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-        expect(screen.queryByText(/Personal Schedule ID is required./)).not.toBeInTheDocument();
         expect(screen.queryByText(/Enroll Code is required./)).not.toBeInTheDocument();
         expect(enrollCd).toHaveValue("20124");
     });
