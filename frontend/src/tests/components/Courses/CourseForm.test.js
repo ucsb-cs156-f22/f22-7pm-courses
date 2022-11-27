@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import CourseForm from "main/components/Courses/CourseForm";
@@ -12,11 +13,15 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe("CourseForm tests", () => {
+    const queryClient = new QueryClient();
+
     test("renders correctly", async () => {
         render(
-            <Router>
-                <CourseForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CourseForm />
+                </Router>
+            </QueryClientProvider>
         );
 
         expect(await screen.findByText(/Personal Schedule/)).toBeInTheDocument();
@@ -26,9 +31,11 @@ describe("CourseForm tests", () => {
 
     test("renders correctly when passing in a Course", async () => {
         render(
-            <Router>
-                <CourseForm initialCourse={coursesFixtures.oneCourse} />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CourseForm initialCourse={coursesFixtures.oneCourse} />
+                </Router>
+            </QueryClientProvider>
         );
 
         expect(await screen.findByTestId(/CourseForm-id/)).toBeInTheDocument();
@@ -38,30 +45,35 @@ describe("CourseForm tests", () => {
 
     test("Correct Error messages on missing input", async () => {
         render(
-            <Router  >
-                <CourseForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router  >
+                    <CourseForm />
+                </Router>
+            </QueryClientProvider>
         );
         expect(await screen.findByTestId("CourseForm-submit")).toBeInTheDocument();
         const submitButton = screen.getByTestId("CourseForm-submit");
 
         fireEvent.click(submitButton);
 
-        expect(screen.getByText(/Enroll Code is required./)).toBeInTheDocument();
+        expect(await screen.findByText(/Enroll Code is required./)).toBeInTheDocument();
+        
     });
 
     test("No Error messages on good input", async () => {
         const mockSubmitAction = jest.fn();
 
         render(
-            <Router>
-                <CourseForm submitAction={mockSubmitAction} />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CourseForm submitAction={mockSubmitAction} />
+                </Router>
+            </QueryClientProvider>
         );
 
         expect(await screen.findByTestId("CourseForm-psId")).toBeInTheDocument();
 
-        const psId = screen.getByTestId("CourseForm-psId");
+        const psId = document.querySelector("#CourseForm-psId");
         const enrollCd = screen.getByTestId("CourseForm-enrollCd");
         const submitButton = screen.getByTestId("CourseForm-submit");
 
@@ -77,9 +89,11 @@ describe("CourseForm tests", () => {
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
         render(
-            <Router>
-                <CourseForm />
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CourseForm />
+                </Router>
+            </QueryClientProvider>
         );
         expect(await screen.findByTestId("CourseForm-cancel")).toBeInTheDocument();
         const cancelButton = screen.getByTestId("CourseForm-cancel");

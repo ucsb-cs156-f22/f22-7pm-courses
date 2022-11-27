@@ -8,7 +8,7 @@ import { useBackend } from "main/utils/useBackend";
 
 function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
 
-    const { data: personalSchedules } =
+    const { data: personalSchedules, error: _error, status: _status } =
     useBackend(
         ["/api/personalschedules/all"],
         { method: "GET", url: "/api/personalschedules/all" },
