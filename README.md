@@ -16,8 +16,8 @@ Users with a Google Account can also store past, current or future schedules of 
 
 # Storybook
 
-* Production: <https://ucsb-cs156.github.io/f22-proj-courses-docs/>
-* QA:  <https://ucsb-cs156.github.io/f22-proj-courses-docs-qa/> 
+* Production: <https://ucsb-cs156-f22.github.io/f22-7pm-courses-docs/>
+* QA:  <https://ucsb-cs156-f22.github.io/f22-7pm-courses-docs-qa/> 
 
 The GitHub actions script to deploy the Storybook to QA requires some configuration; see [docs/github-actions.md](docs/github-actions.md) for details.
 

@@ -2,6 +2,7 @@
 import React from 'react';
 
 import Footer from "main/components/Nav/Footer";
+import { systemInfoFixtures } from 'fixtures/systemInfoFixtures';
 
 export default {
     title: 'layouts/BasicLayout/Footer',
@@ -9,10 +10,12 @@ export default {
 };
 
 
-const Template = () => {
+const Template = (args) => {
     return (
-        <Footer />
+        <Footer {...args}/>
     )
 };
 
 export const Default = Template.bind({});
+Default.args = {systemInfo: systemInfoFixtures.showingNeither}
+

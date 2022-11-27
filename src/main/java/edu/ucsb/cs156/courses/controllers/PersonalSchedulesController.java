@@ -2,6 +2,7 @@ package edu.ucsb.cs156.courses.controllers;
 
 import edu.ucsb.cs156.courses.entities.PersonalSchedule;
 import edu.ucsb.cs156.courses.entities.User;
+import edu.ucsb.cs156.courses.errors.CharLimitExceededException;
 import edu.ucsb.cs156.courses.errors.EntityNotFoundException;
 import edu.ucsb.cs156.courses.errors.NameAndQuarterExistsException;
 import edu.ucsb.cs156.courses.models.CurrentUser;
@@ -99,6 +100,10 @@ public class PersonalSchedulesController extends ApiController {
             //a schedule with the same name and quarter already exist, so throw exception
             throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
           }
+        }
+
+        if (name.length() > 15) {
+          throw new CharLimitExceededException(name);
         }
 
         PersonalSchedule personalschedule = new PersonalSchedule();

@@ -17,7 +17,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
         <Container >
         <img data-testid="AppNavbarImage" src={headerImg} alt="" style={{width: 80, height: 80, marginRight: 10}} />
           <Navbar.Brand as={Link} to="/">
-            Example
+          UCSB Courses Search
           </Navbar.Brand>
 
           <Navbar.Toggle />
@@ -73,8 +73,8 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
             </Nav>
 
             <Nav className="mr-auto">
-              <NavDropdown title="Section Searches" id="appnavbar-section-searches-dropdown" data-testid="appnavbar-section-searches-dropdown" >
-                <NavDropdown.Item href="/sectionsearches/search" data-testid="appnavbar-section-searches-search">Search</NavDropdown.Item>
+              <NavDropdown title="Course Descriptions" id="appnavbar-course-searches-dropdown" data-testid="appnavbar-course-searches-dropdown" >
+                <NavDropdown.Item href="/coursesearches/search" data-testid="appnavbar-course-searches-search">Search</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 
@@ -89,7 +89,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                     <NavDropdown.Item href="/admin/users" data-testid="appnavbar-admin-users">Users</NavDropdown.Item>
                     <NavDropdown.Item href="/admin/personalschedule" data-testid="appnavbar-admin-personalschedule">Personal Schedules</NavDropdown.Item>
                     <NavDropdown.Item href="/admin/loadsubjects" data-testid="appnavbar-admin-loadsubjects">Load Subjects</NavDropdown.Item>
-
+                    <NavDropdown.Item href="/admin/jobs" data-testid="appnavbar-admin-jobs">Manage Jobs</NavDropdown.Item>
                   </NavDropdown>
                 )
               }
