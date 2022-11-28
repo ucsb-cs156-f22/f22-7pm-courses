@@ -94,12 +94,18 @@ public class PersonalSchedulesController extends ApiController {
         log.info("currentUser={}", currentUser);
         
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
+
+        Boolean uniqueNQ = true;
         
         for (PersonalSchedule ps : allSchedules) {
           if (ps.getName().equals(name) && ps.getQuarter().equals(quarter)) {
             //a schedule with the same name and quarter already exist, so throw exception
-            throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
+            uniqueNQ = false;
           }
+        }
+
+        if (uniqueNQ) {
+          throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
         }
 
         if (name.length() > 15) {
@@ -158,13 +164,18 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setQuarter(incomingSchedule.getQuarter());
 
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
+        Boolean uniqueNQ = true;
 
         for (PersonalSchedule schedule : allSchedules) {
           if (personalschedule.getName().equals(schedule.getName())) {
             if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
-              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+              uniqueNQ = false;
             }
           }
+        }
+
+        if (uniqueNQ) {
+          throw new NameAndQuarterExistsException(personalschedule.getName(), personalschedule.getQuarter());
         }
 
         personalscheduleRepository.save(personalschedule);
@@ -187,12 +198,18 @@ public class PersonalSchedulesController extends ApiController {
 
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAll();
 
+        Boolean uniqueNQ = true;
+
         for (PersonalSchedule schedule : allSchedules) {
           if (personalschedule.getName().equals(schedule.getName())) {
             if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
-              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+              uniqueNQ = false;
             }
           }
+        }
+
+        if (uniqueNQ) {
+          throw new NameAndQuarterExistsException(personalschedule.getName(), personalschedule.getQuarter());
         }
 
         personalscheduleRepository.save(personalschedule);
