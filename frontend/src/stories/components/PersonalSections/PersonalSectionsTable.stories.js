@@ -33,6 +33,13 @@ ThreeSections.args = {
     personalSections: personalSectionsFixtures.threePersonalSections
 };
 
+export const FiveSections = Template.bind({});
+
+FiveSections.args = {
+    personalSections: personalSectionsFixtures.threePersonalSections
+};
+
+
 
 // export const ThreeSubjectsUser = Template.bind({});
 // ThreeSubjectsUser.args = {

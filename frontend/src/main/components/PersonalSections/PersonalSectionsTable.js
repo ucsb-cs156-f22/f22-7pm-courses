@@ -1,13 +1,13 @@
 import React from "react";
-import OurTable, { ButtonColumn } from "main/components/OurTable";
+// import OurTable, { ButtonColumn } from "main/components/OurTable";
 import SectionsTableBase from "main/components/SectionsTableBase";
 
 import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime, isSection } from "main/utils/sectionUtils.js";
 
-import { useBackendMutation } from "main/utils/useBackend";
+// import { useBackendMutation } from "main/utils/useBackend";
 // import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/PersonalScheduleUtils"
-import { useNavigate } from "react-router-dom";
-import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
+// import { useNavigate } from "react-router-dom";
+// import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
 
 export default function PersonalSectionsTable({ personalSections }) {
 
