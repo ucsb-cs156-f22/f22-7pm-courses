@@ -21,9 +21,9 @@ Empty.args = {
     personalSections: []
 };
 
-export const oneSection = Template.bind({});
+export const OneSection = Template.bind({});
 
-oneSection.args = {
+OneSection.args = {
     personalSections: oneSection
     // currentUser: currentUserFixtures.adminUser
 };
