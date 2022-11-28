@@ -154,14 +154,18 @@ public class PersonalSchedulesController extends ApiController {
 
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
 
+        Boolean NQConflict = false;
         for (PersonalSchedule schedule : allSchedules) {
           if (personalschedule.getName().equals(schedule.getName())) {
             if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
-              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+              NQConflict = true;
             }
           }
         }
 
+        if (NQConflict) {
+          throw new NameAndQuarterExistsException(personalschedule.getName(), personalschedule.getQuarter());
+        }
         personalscheduleRepository.save(personalschedule);
 
         return personalschedule;
