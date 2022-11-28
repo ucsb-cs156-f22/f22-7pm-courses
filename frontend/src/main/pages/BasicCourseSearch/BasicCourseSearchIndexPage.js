@@ -36,7 +36,8 @@ async function fetchBasicCourseJSON(_event, query) {
 return (
   <BasicLayout>
     <div className="pt-2">
-      <h5>Welcome to the UCSB Courses Description Search App!</h5>
+      <h5>Welcome to the UCSB Courses Search App!</h5>
+
       <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
       <BasicCourseTable courses={courseJSON} />
     </div>

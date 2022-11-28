@@ -71,6 +71,7 @@ describe("BasicCourseSearchIndexPage tests", () => {
     const expectedKey = "BasicSearch.Subject-option-ANTH";
     await waitFor(() => expect(screen.getByTestId(expectedKey).toBeInTheDocument));
 
+
     userEvent.selectOptions(selectSubject, "ANTH");
     const selectLevel = screen.getByLabelText("Course Level");
     userEvent.selectOptions(selectLevel, "G");
