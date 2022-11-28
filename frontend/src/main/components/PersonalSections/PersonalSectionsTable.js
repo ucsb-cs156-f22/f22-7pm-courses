@@ -13,15 +13,6 @@ export default function PersonalSectionsTable({ personalSections }) {
 
     const columns = [
         {
-            Header: 'Quarter',
-            accessor: (row) => yyyyqToQyy(row.courseInfo.quarter),
-            disableGroupBy: true,
-            id: 'quarter',
-
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
-        },
-        {
             Header: 'Course ID',
             accessor: 'courseInfo.courseId',
 
