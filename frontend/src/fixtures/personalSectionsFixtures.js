@@ -30,10 +30,10 @@ export const oneSection = [
           "timeLocations": [
             {
               "beginTime": "15:30",
-              "building": "string",
+              "building": "HFH",
               "days": "M W    ",
               "endTime": "16:45",
-              "room": "string",
+              "room": "1104",
               "roomCapacity": "string"
             }
           ]

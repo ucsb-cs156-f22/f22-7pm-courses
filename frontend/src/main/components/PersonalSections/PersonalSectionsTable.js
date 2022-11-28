@@ -24,7 +24,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Enroll Code',
-            accessor: 'classSections.enrollCode', 
+            accessor: 'classSections[0].enrollCode', 
             disableGroupBy: true,
 
             aggregate: getFirstVal,
@@ -32,7 +32,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Section',
-            accessor: "classSections.section",
+            accessor: "classSections[0].section",
             disableGroupBy: true,
 
 
@@ -50,7 +50,7 @@ export default function PersonalSectionsTable({ personalSections }) {
 
         {
             Header: 'Enrolled',
-            accessor: (row) => convertToFraction(row.classSections.enrolledTotal, row.classSections.maxEnroll),
+            accessor: (row) => convertToFraction(row.classSections[0].enrolledTotal, row.classSections[0].maxEnroll),
             disableGroupBy: true,
             id: 'enrolled',
 
@@ -59,7 +59,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Location',
-            accessor: (row) => formatLocation(row.classSections.timeLocations),
+            accessor: (row) => formatLocation(row.classSections[0].timeLocations),
             disableGroupBy: true,
             id: 'location',
 
@@ -68,7 +68,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Days',
-            accessor: (row) => formatDays(row.classSections.timeLocations),
+            accessor: (row) => formatDays(row.classSections[0].timeLocations),
             disableGroupBy: true,
             id: 'days',
 
@@ -77,7 +77,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Time',
-            accessor: (row) => formatTime(row.classSections.timeLocations),
+            accessor: (row) => formatTime(row.classSections[0].timeLocations),
             disableGroupBy: true,
             id: 'time',
 
@@ -86,7 +86,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Instructor',
-            accessor: (row) => formatInstructors(row.classSections.instructors),
+            accessor: (row) => formatInstructors(row.classSections[0].instructors),
             disableGroupBy: true,
             id: 'instructor',
 
@@ -101,6 +101,6 @@ export default function PersonalSectionsTable({ personalSections }) {
     return <SectionsTableBase
         data={personalSections}
         columns={columnsToDisplay}
-        testid={"PersonalScectionsTable"}
+        testid={"PersonalSectionsTable"}
     />;
 };
