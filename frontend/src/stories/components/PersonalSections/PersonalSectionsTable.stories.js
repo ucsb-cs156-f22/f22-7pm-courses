@@ -1,8 +1,8 @@
 import React from 'react';
 
 import PersonalSectionsTable from 'main/components/PersonalSections/PersonalSectionsTable';
-import { oneSection } from 'fixtures/personalSectionsFixtures';
-// import { currentUserFixtures } from 'fixtures/currentUserFixtures';
+import { oneSection, threeSections, fiveSections } from 'fixtures/personalSectionsFixtures';
+import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/PersonalSections/PersonalSectionsTable',
@@ -25,26 +25,25 @@ export const OneSection = Template.bind({});
 
 OneSection.args = {
     personalSections: oneSection
-    // currentUser: currentUserFixtures.adminUser
 };
 
-// export const ThreeSections = Template.bind({});
+export const ThreeSections = Template.bind({});
 
-// ThreeSections.args = {
-//     personalSections: personalSectionsFixtures.threePersonalSections
-// };
+ThreeSections.args = {
+    personalSections: threeSections
+};
 
-// export const FiveSections = Template.bind({});
+export const FiveSections = Template.bind({});
 
-// FiveSections.args = {
-//     personalSections: personalSectionsFixtures.fivePersonalSections
-// };
+FiveSections.args = {
+    personalSections: fiveSections
+};
 
 
 
-// export const ThreeSubjectsUser = Template.bind({});
-// ThreeSubjectsUser.args = {
-//     personalSections: personalSectionsFixtures.threePersonalSections,
-//     currentUser: currentUserFixtures.adminUser
-// };
+export const ThreeSubjectsUser = Template.bind({});
+ThreeSubjectsUser.args = {
+    personalSections: threeSections,
+    currentUser: currentUserFixtures.adminUser
+};
 

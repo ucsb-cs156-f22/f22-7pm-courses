@@ -1,13 +1,8 @@
 import React from "react";
-// import OurTable, { ButtonColumn } from "main/components/OurTable";
 import SectionsTableBase from "main/components/SectionsTableBase";
 
 import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime } from "main/utils/sectionUtils.js";
 
-// import { useBackendMutation } from "main/utils/useBackend";
-// import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/PersonalScheduleUtils"
-// import { useNavigate } from "react-router-dom";
-// import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
 
 function getFirstVal(values){
     return values[0];
