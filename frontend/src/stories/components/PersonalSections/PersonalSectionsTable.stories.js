@@ -1,8 +1,8 @@
 import React from 'react';
 
 import PersonalSectionsTable from 'main/components/PersonalSections/PersonalSectionsTable';
-import { personalSectionsFixtures } from 'fixtures/personalSectionsFixtures';
-import { currentUserFixtures } from 'fixtures/currentUserFixtures';
+import { oneSection } from 'fixtures/personalSectionsFixtures';
+// import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/PersonalSections/PersonalSectionsTable',
@@ -21,23 +21,24 @@ Empty.args = {
     personalSections: []
 };
 
-export const OneSection = Template.bind({});
+export const oneSection = Template.bind({});
 
-OneSection.args = {
-    sections: oneSection
+oneSection.args = {
+    personalSections: oneSection
+    // currentUser: currentUserFixtures.adminUser
 };
 
-export const ThreeSections = Template.bind({});
+// export const ThreeSections = Template.bind({});
 
-ThreeSections.args = {
-    personalSections: personalSectionsFixtures.threePersonalSections
-};
+// ThreeSections.args = {
+//     personalSections: personalSectionsFixtures.threePersonalSections
+// };
 
-export const FiveSections = Template.bind({});
+// export const FiveSections = Template.bind({});
 
-FiveSections.args = {
-    personalSections: personalSectionsFixtures.threePersonalSections
-};
+// FiveSections.args = {
+//     personalSections: personalSectionsFixtures.fivePersonalSections
+// };
 
 
 

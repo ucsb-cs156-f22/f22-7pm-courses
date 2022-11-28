@@ -2,40 +2,55 @@ import React from "react";
 // import OurTable, { ButtonColumn } from "main/components/OurTable";
 import SectionsTableBase from "main/components/SectionsTableBase";
 
-import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime, isSection } from "main/utils/sectionUtils.js";
+import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime } from "main/utils/sectionUtils.js";
 
 // import { useBackendMutation } from "main/utils/useBackend";
 // import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/PersonalScheduleUtils"
 // import { useNavigate } from "react-router-dom";
 // import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
 
+function getFirstVal(values){
+    return values[0];
+}
+
 export default function PersonalSectionsTable({ personalSections }) {
 
     const columns = [
         {
             Header: 'Course ID',
-            accessor: 'courseInfo.courseId',
+            accessor: 'courseId',
 
             Cell: ({ cell: { value } }) => value.substring(0, value.length-2)
         },
         {
-            Header: 'Title',
-            accessor: 'courseInfo.title',
+            Header: 'Enroll Code',
+            accessor: 'classSections.enrollCode', 
             disableGroupBy: true,
 
             aggregate: getFirstVal,
             Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
-            // Stryker disable next-line StringLiteral: this column is hidden, very hard to test
-            Header: 'Is Section?',
-            accessor: (row) => isSection(row.section.section),
-            // Stryker disable next-line StringLiteral: this column is hidden, very hard to test
-            id: 'isSection',
+            Header: 'Section',
+            accessor: "classSections.section",
+            disableGroupBy: true,
+
+
+            aggregate: getFirstVal,
+            Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
+            Header: 'Title',
+            accessor: 'title',
+            disableGroupBy: true,
+
+            aggregate: getFirstVal,
+            Aggregated: ({ cell: { value } }) => `${value}`
+        },
+
+        {
             Header: 'Enrolled',
-            accessor: (row) => convertToFraction(row.section.enrolledTotal, row.section.maxEnroll),
+            accessor: (row) => convertToFraction(row.classSections.enrolledTotal, row.classSections.maxEnroll),
             disableGroupBy: true,
             id: 'enrolled',
 
@@ -44,7 +59,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Location',
-            accessor: (row) => formatLocation(row.section.timeLocations),
+            accessor: (row) => formatLocation(row.classSections.timeLocations),
             disableGroupBy: true,
             id: 'location',
 
@@ -53,7 +68,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Days',
-            accessor: (row) => formatDays(row.section.timeLocations),
+            accessor: (row) => formatDays(row.classSections.timeLocations),
             disableGroupBy: true,
             id: 'days',
 
@@ -62,7 +77,7 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Time',
-            accessor: (row) => formatTime(row.section.timeLocations),
+            accessor: (row) => formatTime(row.classSections.timeLocations),
             disableGroupBy: true,
             id: 'time',
 
@@ -71,21 +86,13 @@ export default function PersonalSectionsTable({ personalSections }) {
         },
         {
             Header: 'Instructor',
-            accessor: (row) => formatInstructors(row.section.instructors),
+            accessor: (row) => formatInstructors(row.classSections.instructors),
             disableGroupBy: true,
             id: 'instructor',
 
             aggregate: getFirstVal,
             Aggregated: ({ cell: { value } }) => `${value}`
-        },        
-        {
-            Header: 'Enroll Code',
-            accessor: 'section.enrollCode', 
-            disableGroupBy: true,
-
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
-        }
+        }   
     ];
 
     const columnsToDisplay = columns;
