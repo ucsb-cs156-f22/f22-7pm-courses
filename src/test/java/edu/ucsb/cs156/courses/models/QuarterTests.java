@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class QuarterTests {
 
@@ -244,6 +245,21 @@ public class QuarterTests {
     }
 
     @Test
+    public void test_qyyToQyyyy__S51() throws Exception {
+        assertEquals(19512, Quarter.qyyToQyyyy("S51"));
+    }
+
+    @Test
+    public void test_qyyToQyyyy__S50() throws Exception {
+        assertEquals(20502, Quarter.qyyToQyyyy("S50"));
+    }
+
+    @Test
+    public void test_qyyToQyyyy__S49() throws Exception {
+        assertEquals(20492, Quarter.qyyToQyyyy("S49"));
+    }
+
+    @Test
     public void test_qyyToQyyyy__M20() throws Exception {
         assertEquals(20203, Quarter.qyyToQyyyy("M20"));
     }
@@ -311,6 +327,13 @@ public class QuarterTests {
     }
 
     @Test
+    public void test_quarterList_S20_S20() throws Exception {
+        ArrayList<Quarter> expected = new ArrayList<Quarter>();
+        expected.add(new Quarter("S20"));
+        assertEquals(expected, Quarter.quarterList("S20", "S20"));
+    }
+
+    @Test
     public void testQuarter_notEqualNull() {
         Quarter q = new Quarter("W20");
         assertNotEquals(q, null);
@@ -344,9 +367,8 @@ public class QuarterTests {
 
     @Test
     public void test_hashCode() {
-        Quarter q1 = new Quarter("W20");
+        // Quarter q1 = new Quarter("W20");
         Quarter q2 = new Quarter("W20");
-        assertEquals(q1.hashCode(), q2.hashCode());
+        assertEquals(Objects.hashCode(q2.getValue()), q2.hashCode());
     }
-
 }

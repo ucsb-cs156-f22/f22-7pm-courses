@@ -215,7 +215,7 @@ public class Quarter {
         }
         int yyInt = Integer
                 .parseInt(yy);
-        int century = (yyInt > 50) ? 1900 : 2000;
+        int century = (yyInt >  50) ? 1900 : 2000;
         return (century + yyInt) * 10 + qInt;
     }
 
