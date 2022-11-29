@@ -1,7 +1,8 @@
-import { fiveSections, gigaSections } from "fixtures/sectionFixtures";
+import { render, screen } from "@testing-library/react";
+import { fiveSections } from "fixtures/personalSectionsFixtures";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import SectionsTable from "main/components/Sections/SectionsTable";
+import PersonalSectionsTable from "main/components/PersonalSections/PersonalSectionsTable";
 
 
 const mockedNavigate = jest.fn();
@@ -11,7 +12,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("Section tests", () => {
+describe("PersonalSections tests", () => {
   const queryClient = new QueryClient();
 
 
@@ -20,68 +21,26 @@ describe("Section tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <SectionsTable sections={[]} />
+          <PersonalSectionsTable personalSections={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
   });
 
-
-
-  test("Has the expected cell values when expanded", () => {
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <SectionsTable sections={fiveSections} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-
-    const expectedHeaders = ["Quarter",  "Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
-    const expectedFields = ["quarter", "courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
-    const testId = "SectionsTable";
-    
-
-    expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
-      expect(header).toBeInTheDocument();
-    });
-
-    expectedFields.forEach((field) => {
-      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
-      expect(header).toBeInTheDocument();
-    });
-
-    const expandRow = screen.getByTestId(`${testId}-cell-row-1-col-courseInfo.courseId-expand-symbols`)
-    fireEvent.click(expandRow);
-
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-location`)).toHaveTextContent("HFH 1124");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-instructor`)).toHaveTextContent("YUNG A S");
-
-
-
-  });
 
   test("Has the expected column headers and content", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <SectionsTable sections={fiveSections} />
+          <PersonalSectionsTable personalSections={fiveSections} />
         </MemoryRouter>
       </QueryClientProvider>
       );
 
-      const expectedHeaders = ["Quarter",  "Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
-      const expectedFields = ["quarter", "courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
-      const testId = "SectionsTable";
+      const expectedHeaders = ["Course ID", "Enroll Code", "Section","Title", "Enrolled", "Location", "Days", "Time", "Instructor"];
+      const expectedFields = ["courseId", "classSections[0].enrollCode", "classSections[0].section","title", "enrolled", "location", "days", "time", "instructor"];
+      const testId = "PersonalSectionsTable";
 
       expectedHeaders.forEach((headerText) => {
         const header = screen.getByText(headerText);
@@ -93,15 +52,15 @@ describe("Section tests", () => {
         const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
         expect(header).toBeInTheDocument();
       });
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.courseId`)).toHaveTextContent("ECE 1A");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.title`)).toHaveTextContent("COMP ENGR SEMINAR");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 5");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-classSections[0].enrollCode`)).toHaveTextContent("12591");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-classSections[0].section`)).toHaveTextContent("0100");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("INTRO TO ECE");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("78/120");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-location`)).toHaveTextContent("PHELP 1260");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-location`)).toHaveTextContent("BUCHN 1930");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-instructor`)).toHaveTextContent("WANG L C");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-section.enrollCode`)).toHaveTextContent("12583");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("12:30 PM - 1:45 PM");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-instructor`)).toHaveTextContent("HESPANHA J P");
       
 
   });
