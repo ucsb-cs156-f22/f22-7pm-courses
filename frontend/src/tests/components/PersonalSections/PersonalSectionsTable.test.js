@@ -53,6 +53,7 @@ describe("PersonalSections tests", () => {
         expect(header).toBeInTheDocument();
       });
       expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 5");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).not.toHaveTextContent("ECE 5 "); // covers mutation of not successfully removing all whitespaces
       expect(screen.getByTestId(`${testId}-cell-row-0-col-classSections[0].enrollCode`)).toHaveTextContent("12591");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-classSections[0].section`)).toHaveTextContent("0100");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("INTRO TO ECE");
