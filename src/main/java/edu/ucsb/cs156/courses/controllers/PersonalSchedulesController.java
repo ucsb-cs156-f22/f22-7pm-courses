@@ -49,7 +49,7 @@ public class PersonalSchedulesController extends ApiController {
         Iterable<PersonalSchedule> personalschedules = personalscheduleRepository.findAll();
         return personalschedules;
     }
-    
+
     @ApiOperation(value = "List this user's personal schedules")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")

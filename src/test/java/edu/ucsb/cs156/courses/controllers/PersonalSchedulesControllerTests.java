@@ -498,14 +498,14 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User user = currentUserService.getCurrentUser().getUser();
         PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
-        PersonalSchedule ps3 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20224").user(user).id(78L).build();
-        PersonalSchedule ps4 = PersonalSchedule.builder().name("Name 3").description("Description 2").quarter("20222").user(user).id(78L).build();
+
+        // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
 
         ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps3, ps4, ps1, ps2));
+        expectedSchedules.addAll(Arrays.asList(ps1, ps2));
 
         when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
 
@@ -598,10 +598,8 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         // arrange
 
         User user = User.builder().id(255L).build();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 2").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
-        PersonalSchedule ps3 = PersonalSchedule.builder().name("Name 2").description("Description 1").quarter("20224").user(user).id(77L).build();
-        PersonalSchedule ps4 = PersonalSchedule.builder().name("Name 3").description("Description 1").quarter("20221").user(user).id(77L).build();
 
         // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
@@ -609,7 +607,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
 
         ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps3, ps4, ps1, ps2));
+        expectedSchedules.addAll(Arrays.asList(ps1, ps2));
 
         when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
 
@@ -642,23 +640,13 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
 
         // act
-        mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20224")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-        
-        mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=Name2&quarter=20222")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
                 .andExpect(status().is(404)).andReturn();
 
         // assert
-        verify(personalscheduleRepository, times(3)).findAllByUserId(user.getId());
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
         Map<String, Object> json = responseToJson(response);
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
@@ -676,23 +664,13 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
 
         // act
-        mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20224")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=Name2&quarter=20222")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-        
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
                 .andExpect(status().is(404)).andReturn();
 
         // assert
-        verify(personalscheduleRepository, times(3)).findAllByUserId(user.getId());
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
         Map<String, Object> json = responseToJson(response);
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
