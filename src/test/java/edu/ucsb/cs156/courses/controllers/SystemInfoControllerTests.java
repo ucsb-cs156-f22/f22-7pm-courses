@@ -6,6 +6,7 @@ import edu.ucsb.cs156.courses.repositories.UserRepository;
 import edu.ucsb.cs156.courses.services.SystemInfoService;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = SystemInfoController.class)
+@AutoConfigureDataJpa
 public class SystemInfoControllerTests extends ControllerTestCase {
 
   @MockBean
@@ -33,6 +35,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();
@@ -59,6 +62,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();
@@ -84,6 +88,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
         .builder()
         .showSwaggerUILink(true)
         .springH2ConsoleEnabled(true)
+        .sourceRepoUrl("https://github.com/ucsb-cs156-s22/s22-4pm-courses")
         .startQtrYYYYQ("20221")
         .endQtrYYYYQ("20222")
         .build();
