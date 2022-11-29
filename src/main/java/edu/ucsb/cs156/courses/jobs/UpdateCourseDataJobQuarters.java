@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Slf4j
-public class UpdateCourseDataJob implements JobContextConsumer {
+public class UpdateCourseDataJobQuarters implements JobContextConsumer {
 
     @Getter private String subjectArea;
     @Getter private String quarterYYYYQ;
@@ -25,9 +25,9 @@ public class UpdateCourseDataJob implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Updating courses for [" + subjectArea + " " + quarterYYYYQ + "]");
+        ctx.log("Updating courses for [" + quarterYYYYQ + "]");
         
-        List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea, quarterYYYYQ,
+        List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea,quarterYYYYQ,
                 "A");
 
         ctx.log("Found " + convertedSections.size() + " sections");
@@ -61,6 +61,6 @@ public class UpdateCourseDataJob implements JobContextConsumer {
     
         ctx.log(String.format("%d new sections saved, %d sections updated, %d errors", newSections, updatedSections,
                 errors));
-        ctx.log("Courses for [" + subjectArea + " " + quarterYYYYQ + "] have been updated");
+        ctx.log("Courses for [" + quarterYYYYQ + "] have been updated");
     }
 }

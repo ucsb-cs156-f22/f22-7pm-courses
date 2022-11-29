@@ -32,7 +32,7 @@ public class JobService {
   }
 
   
-
+  
   @Async
   public void runJobAsync(Job job, JobContextConsumer jobFunction) {
     JobContext context = new JobContext(jobsRepository, job);
