@@ -527,6 +527,41 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
+@WithMockUser(roles = { "USER" })
+@Test
+public void api_schedules__user_logged_in__can_put_schedule_that_does_not_already_exist() throws Exception {
+
+        User user = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
+
+//     String ps1String = mapper.writeValueAsString(ps1);
+        String ps2String = mapper.writeValueAsString(ps2);
+
+        when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(ps1Array));
+
+        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
+
+    // act
+        MvcResult response = mockMvc.perform(
+                put("/api/personalschedules?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(ps2String)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+    // assert
+        verify(personalscheduleRepository, times(1)).findByIdAndUser(77L, user);
+        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(ps2String, responseString);
+}
+
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
@@ -628,6 +663,42 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         Map<String, Object> json = responseToJson(response);
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void api_schedules__admin_logged_in__can_put_schedule_that_does_not_already_exist() throws Exception {
+        // arrange
+
+        User user = User.builder().id(255L).build();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
+
+        // String ps1String = mapper.writeValueAsString(ps1);
+        String ps2String = mapper.writeValueAsString(ps2);
+
+        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(ps1Array));
+
+        when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/personalschedules/admin?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(ps2String)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(personalscheduleRepository, times(1)).findById(77L);
+        verify(personalscheduleRepository, times(1)).findAll();
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(ps2String, responseString);
+    }
     
     @WithMockUser(roles = { "USER" })
     @Test
@@ -670,6 +741,34 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
         Map<String, Object> json = responseToJson(response);
         assertEquals("NameAndQuarterExistsException", json.get("type"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void api_schedules_post__user_logged_in_can_post_schedule_if_name_and_quarter_does_not_already_exist() throws Exception {
+        // arrange
+        User user = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule p1 = PersonalSchedule.builder().name("NameLengthened1").description("Description1").quarter("20222").user(user).id(0L).build();
+        PersonalSchedule p2 = PersonalSchedule.builder().name("Name1").description("Description1").quarter("20221").user(user).id(1L).build();
+
+        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
+        expectedSchedules.addAll(Arrays.asList(p2));
+
+        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
+        when(personalscheduleRepository.save(eq(p1))).thenReturn(p1);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/personalschedules/post?description=Description1&name=NameLengthened1&quarter=20222")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        // verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
+        verify(personalscheduleRepository, times(1)).save(p1);
+        String responseString = response.getResponse().getContentAsString();
+        String expectedJson = mapper.writeValueAsString(p1);
+        assertEquals(expectedJson, responseString);
     }
 
     @WithMockUser(roles = { "ADMIN", "USER" })
