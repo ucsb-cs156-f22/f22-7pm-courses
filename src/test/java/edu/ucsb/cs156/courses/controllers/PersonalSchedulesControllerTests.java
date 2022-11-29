@@ -667,18 +667,17 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         // arrange
 
         User user = User.builder().id(255L).build();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(77L).build();
+        PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 2").description("Description 1").quarter("20221").user(user).id(77L).build();
+        PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
         PersonalSchedule ps3 = PersonalSchedule.builder().name("Name 2").description("Description 1").quarter("20224").user(user).id(77L).build();
         PersonalSchedule ps4 = PersonalSchedule.builder().name("Name 3").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps5 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(77L).build();
 
         String ps2String = mapper.writeValueAsString(ps2);
 
-        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps2));
+        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
 
         ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps3, ps4, ps1, ps5));
+        expectedSchedules.addAll(Arrays.asList(ps3, ps4, ps1, ps2));
 
         when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
 
