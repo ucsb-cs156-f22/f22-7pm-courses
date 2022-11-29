@@ -2,6 +2,7 @@ package edu.ucsb.cs156.courses.controllers;
 
 import edu.ucsb.cs156.courses.entities.PersonalSchedule;
 import edu.ucsb.cs156.courses.entities.User;
+import edu.ucsb.cs156.courses.errors.CharLimitExceededException;
 import edu.ucsb.cs156.courses.errors.EntityNotFoundException;
 import edu.ucsb.cs156.courses.errors.NameAndQuarterExistsException;
 import edu.ucsb.cs156.courses.models.CurrentUser;
@@ -101,6 +102,10 @@ public class PersonalSchedulesController extends ApiController {
           }
         }
 
+        if (name.length() > 15) {
+          throw new CharLimitExceededException(name);
+        }
+
         PersonalSchedule personalschedule = new PersonalSchedule();
         personalschedule.setUser(currentUser.getUser());
         personalschedule.setName(name);
@@ -155,13 +160,12 @@ public class PersonalSchedulesController extends ApiController {
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
 
         for (PersonalSchedule schedule : allSchedules) {
-          if (personalschedule.getName().equals(schedule.getName())) {
-            if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
-              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+          if (incomingSchedule.getName().equals(schedule.getName())) {
+            if (incomingSchedule.getQuarter().equals(schedule.getQuarter())) {
+              throw new NameAndQuarterExistsException(personalschedule.getName(), personalschedule.getQuarter());
             }
           }
         }
-
         personalscheduleRepository.save(personalschedule);
 
         return personalschedule;
@@ -179,13 +183,14 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setName(incomingSchedule.getName());
         personalschedule.setDescription(incomingSchedule.getDescription());
         personalschedule.setQuarter(incomingSchedule.getQuarter());
+        
 
         Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAll();
 
         for (PersonalSchedule schedule : allSchedules) {
-          if (personalschedule.getName().equals(schedule.getName())) {
-            if (personalschedule.getQuarter().equals(schedule.getQuarter())) {
-              throw new NameAndQuarterExistsException(schedule.getName(), schedule.getQuarter());
+          if (incomingSchedule.getName().equals(schedule.getName())) {
+            if (incomingSchedule.getQuarter().equals(schedule.getQuarter())) {
+              throw new NameAndQuarterExistsException(incomingSchedule.getName(), incomingSchedule.getQuarter());
             }
           }
         }
