@@ -4,12 +4,14 @@ import SectionsTableBase from "main/components/SectionsTableBase";
 import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime } from "main/utils/sectionUtils.js";
 
 
-function getFirstVal(values){
-    return values[0];
-}
+// function getFirstVal(values){
+//     return values[0];
+// }
 
 export default function PersonalSectionsTable({ personalSections }) {
 
+    // Stryker enable all 
+    // Stryker disable BooleanLiteral
     const columns = [
         {
             Header: 'Course ID',
@@ -22,8 +24,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             accessor: 'classSections[0].enrollCode', 
             disableGroupBy: true,
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Section',
@@ -31,16 +33,16 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
 
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Title',
             accessor: 'title',
             disableGroupBy: true,
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
 
         {
@@ -49,8 +51,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
             id: 'enrolled',
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Location',
@@ -58,8 +60,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
             id: 'location',
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Days',
@@ -67,8 +69,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
             id: 'days',
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Time',
@@ -76,8 +78,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
             id: 'time',
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         },
         {
             Header: 'Instructor',
@@ -85,8 +87,8 @@ export default function PersonalSectionsTable({ personalSections }) {
             disableGroupBy: true,
             id: 'instructor',
 
-            aggregate: getFirstVal,
-            Aggregated: ({ cell: { value } }) => `${value}`
+            // aggregate: getFirstVal,
+            // Aggregated: ({ cell: { value } }) => `${value}`
         }   
     ];
 
