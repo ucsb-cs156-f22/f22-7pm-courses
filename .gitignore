@@ -6,7 +6,8 @@
 frontend/.stryker-tmp
 frontend/reports
 frontend/strykerTmp
-
+/.stryker-tmp
+.history
 # Don't check in a built storybook #
 
 frontend/storybook-static

@@ -42,10 +42,9 @@ describe("Section tests", () => {
     );
 
 
-    const expectedHeaders = ["Quarter",  "Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
-    const expectedFields = ["quarter", "courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
+    const expectedHeaders = ["Quarter", "Section", "Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
+    const expectedFields = ["quarter",  "section.section", "courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
     const testId = "SectionsTable";
-    
 
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
@@ -61,6 +60,7 @@ describe("Section tests", () => {
     fireEvent.click(expandRow);
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0101");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
@@ -80,8 +80,8 @@ describe("Section tests", () => {
       </QueryClientProvider>
       );
 
-      const expectedHeaders = ["Quarter",  "Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
-      const expectedFields = ["quarter", "courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
+      const expectedHeaders = ["Quarter",  "Section","Course ID", "Title", "Enrolled", "Location", "Days", "Time", "Instructor", "Enroll Code"];
+      const expectedFields = ["quarter", "section.section","courseInfo.courseId", "courseInfo.title", "enrolled", "location", "days", "time", "instructor", "section.enrollCode"];
       const testId = "SectionsTable";
 
       expectedHeaders.forEach((headerText) => {
@@ -97,6 +97,7 @@ describe("Section tests", () => {
       expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.courseId`)).toHaveTextContent("ECE 1A");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.title`)).toHaveTextContent("COMP ENGR SEMINAR");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0101");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
@@ -104,7 +105,6 @@ describe("Section tests", () => {
       expect(screen.getByTestId(`${testId}-cell-row-0-col-instructor`)).toHaveTextContent("WANG L C");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-section.enrollCode`)).toHaveTextContent("12583");
       
-
   });
 
   test("Correctly groups separate lectures of the same class", async () => {

@@ -1,4 +1,5 @@
 import {convertToFraction, formatLocation, isSection, formatDays, formatTime, formatInstructors} from "main/utils/sectionUtils"
+import { boldIfNotSection } from "main/utils/sectionUtils";
 
 const testTimeLocations = [
     {
@@ -48,6 +49,14 @@ const testInstructors = [
         "functionCode": "Teaching and in charge"
     }
 ]
+
+describe("To bold tests", () => {
+    test("If correct number bolds", () => {
+        expect(boldIfNotSection("2000")).toStrictEqual(<div style={{fontWeight: "bold"}}>2000</div>);
+        expect(() => {boldIfNotSection("abc"); }).toThrow("param should be a number");
+        expect(boldIfNotSection("2002")).toBe("2002");
+    });
+});
 
 describe ("section utils tests", () => {
     test("convertToFraction one null test 1" , () => {
