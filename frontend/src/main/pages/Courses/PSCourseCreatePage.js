@@ -11,7 +11,7 @@ export default function CoursesCreatePage() {
     method: "POST",
     params: {
       enrollCd: course.enrollCd,
-      psId: course.psId
+      psId: course.psId,
     }
   });
 
@@ -29,11 +29,7 @@ export default function CoursesCreatePage() {
   const { isSuccess } = mutation
 
   const onSubmit = async (data) => {
-    const psId = {
-      psId: localStorage["CourseForm-psId"]
-    }
-    const dataFinal = Object.assign(data, psId)
-    mutation.mutate(dataFinal);
+    mutation.mutate(data);
   }
 
   if (isSuccess) {

@@ -1,23 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import SinglePersonalScheduleDropdown from "../PersonalSchedules/SinglePersonalScheduleDropdown";
-import { useBackend } from "main/utils/useBackend";
+
 
 function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
-
-    const { data: personalSchedules, error: _error, status: _status } =
-    useBackend(
-        ["/api/personalschedules/all"],
-        { method: "GET", url: "/api/personalschedules/all" },
-        []
-    );
-
-    const localPersonalSchedule = localStorage.getItem("CourseForm-psId");
-
-    const [personalSchedule, setPersonalSchedule] = useState(localPersonalSchedule || {});
 
     // Stryker disable all
     const {
@@ -65,13 +53,20 @@ function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
                 </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" data-testid="CourseForm-psId">
-                <SinglePersonalScheduleDropdown
-                    personalSchedule={personalSchedule.id}
-                    setPersonalSchedule={setPersonalSchedule} 
-                    controlId={"CourseForm-psId"}
-                    label={"Personal Schedule"}
-                    personalSchedules={personalSchedules}/>
+            <Form.Group className="mb-3" >
+                <Form.Label htmlFor="psId">Personal Schedule ID</Form.Label>
+                <Form.Control
+                    data-testid="CourseForm-psId"
+                    id="psId"
+                    type="text"
+                    isInvalid={Boolean(errors.psId)}
+                    {...register("psId", {
+                        required: "Personal Schedule ID is required."
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.psId?.message}
+                </Form.Control.Feedback>
             </Form.Group>
 
             <Button

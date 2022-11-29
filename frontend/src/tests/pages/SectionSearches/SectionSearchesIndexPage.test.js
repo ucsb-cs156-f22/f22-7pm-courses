@@ -63,9 +63,8 @@ describe("Section Searches Index Page tests", () => {
     userEvent.selectOptions(selectQuarter, "20222");
     const selectSubject = screen.getByLabelText("Subject Area");
 
-    const expectedKey = "BasicSearch.Subject-option-ANTH";
-    await waitFor(() => expect(screen.getByTestId(expectedKey).toBeInTheDocument));
-    
+    expect(await screen.findByLabelText("Subject Area")).toHaveTextContent("ANTH");
+
     userEvent.selectOptions(selectSubject, "ANTH");
     const selectLevel = screen.getByLabelText("Course Level");
     userEvent.selectOptions(selectLevel, "G");

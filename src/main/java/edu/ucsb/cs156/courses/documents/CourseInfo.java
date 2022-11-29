@@ -14,14 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseInfo implements Cloneable {
+public class CourseInfo {
     private String quarter;
     private String courseId;
     private String title;
     private String description;
-
-    public Object clone() throws CloneNotSupportedException {
-        CourseInfo newCourseInfo = (CourseInfo) super.clone();
-        return newCourseInfo;
-    }
 }

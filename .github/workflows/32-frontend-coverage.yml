@@ -3,10 +3,9 @@ name: "32-frontend-coverage: Frontend Coverage (JavaScript/Jest)"
 on:
   workflow_dispatch:
   pull_request:
-    paths: [frontend/**]
   push:
-    branches: [ main ]
-    paths: [frontend/**]
+    branches:
+      - main
 
 jobs:
   build:

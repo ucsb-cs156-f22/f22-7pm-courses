@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import _HomePage from "main/pages/HomePage";
+import HomePage from "main/pages/HomePage";
 import ProfilePage from "main/pages/ProfilePage";
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminLoadSubjectsPage from "main/pages/AdminLoadSubjectsPage";
 import AdminPersonalSchedulesPage from "main/pages/AdminPersonalSchedulePage";
-import AdminJobsPage from "main/pages/AdminJobsPage";
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
@@ -20,9 +19,6 @@ import SectionSearchesIndexPage from "main/pages/SectionSearches/SectionSearches
 import CoursesIndexPage from "main/pages/Courses/PSCourseIndexPage";
 import CoursesCreatePage from "main/pages/Courses/PSCourseCreatePage";
 
-import BasicCourseSearchPage from "main/pages/BasicCourseSearch/BasicCourseSearchIndexPage";
-
-
 function App() {
 
   const { data: currentUser } = useCurrentUser();
@@ -30,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<SectionSearchesIndexPage />} />
+        <Route exact path="/" element={<HomePage />} />
         <Route exact path="/profile" element={<ProfilePage />} />
         {
           hasRole(currentUser, "ROLE_ADMIN") && (
@@ -38,7 +34,6 @@ function App() {
               <Route exact path="/admin/users" element={<AdminUsersPage />} />
               <Route exact path="/admin/loadsubjects" element={<AdminLoadSubjectsPage />} />
               <Route exact path="/admin/personalschedule" element={<AdminPersonalSchedulesPage />} />
-              <Route path="/admin/jobs" element={<AdminJobsPage />} />
             </>
           )
         }
@@ -55,7 +50,7 @@ function App() {
             </>
           )
         }
-        <Route exact path="/coursesearches/search" element={<BasicCourseSearchPage />} />
+        <Route exact path="/sectionsearches/search" element={<SectionSearchesIndexPage />} />
       </Routes>
     </BrowserRouter>
   );

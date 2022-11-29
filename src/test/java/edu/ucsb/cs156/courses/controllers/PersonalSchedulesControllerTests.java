@@ -8,7 +8,6 @@ import edu.ucsb.cs156.courses.entities.User;
 import edu.ucsb.cs156.courses.repositories.PersonalScheduleRepository;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -33,7 +32,6 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = PersonalSchedulesController.class)
 @Import(TestConfig.class)
-@AutoConfigureDataJpa
 public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
     @MockBean
@@ -527,75 +525,6 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
-@WithMockUser(roles = { "USER" })
-@Test
-public void api_schedules__user_logged_in__can_put_schedule_that_does_not_already_exist() throws Exception {
-
-        User user = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
-
-//     String ps1String = mapper.writeValueAsString(ps1);
-        String ps2String = mapper.writeValueAsString(ps2);
-
-        when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps1Array));
-
-        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
-
-    // act
-        MvcResult response = mockMvc.perform(
-                put("/api/personalschedules?id=77")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(ps2String)
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-    // assert
-        verify(personalscheduleRepository, times(1)).findByIdAndUser(77L, user);
-        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
-        String responseString = response.getResponse().getContentAsString();
-        assertEquals(ps2String, responseString);
-}
-@WithMockUser(roles = { "USER" })
-@Test
-public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_does_not_already_exist() throws Exception {
-
-        User user = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened1").description("Description 2").quarter("20222").user(user).id(77L).build();
-
-//     String ps1String = mapper.writeValueAsString(ps1);
-        String ps2String = mapper.writeValueAsString(ps2);
-
-        when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps1Array));
-
-        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
-
-    // act
-        MvcResult response = mockMvc.perform(
-                put("/api/personalschedules?id=77")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(ps2String)
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-    // assert
-        verify(personalscheduleRepository, times(1)).findByIdAndUser(77L, user);
-        verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
-        String responseString = response.getResponse().getContentAsString();
-        assertEquals(ps2String, responseString);
-}
-
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
@@ -700,97 +629,6 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
-    @WithMockUser(roles = { "ADMIN", "USER" })
-    @Test
-    public void api_schedules__admin_logged_in__can_put_schedule_that_does_not_already_exist() throws Exception {
-        // arrange
-
-        User user = User.builder().id(255L).build();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
-
-        // String ps1String = mapper.writeValueAsString(ps1);
-        String ps2String = mapper.writeValueAsString(ps2);
-
-        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps1Array));
-
-        when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
-
-        // act
-        MvcResult response = mockMvc.perform(
-                put("/api/personalschedules/admin?id=77")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(ps2String)
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        // assert
-        verify(personalscheduleRepository, times(1)).findById(77L);
-        verify(personalscheduleRepository, times(1)).findAll();
-        String responseString = response.getResponse().getContentAsString();
-        assertEquals(ps2String, responseString);
-    }
-
-    @WithMockUser(roles = { "ADMIN", "USER" })
-    @Test
-    public void api_schedules__admin_logged_in__can_put_schedule_with_quarter_that_does_not_already_exist() throws Exception {
-        // arrange
-
-        User user = User.builder().id(255L).build();
-        PersonalSchedule ps1 = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
-        PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened1").description("Description 2").quarter("20222").user(user).id(77L).build();
-
-        // String ps1String = mapper.writeValueAsString(ps1);
-        String ps2String = mapper.writeValueAsString(ps2);
-
-        when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(ps1Array));
-
-        when(personalscheduleRepository.findAll()).thenReturn(expectedSchedules);
-
-        // act
-        MvcResult response = mockMvc.perform(
-                put("/api/personalschedules/admin?id=77")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(ps2String)
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        // assert
-        verify(personalscheduleRepository, times(1)).findById(77L);
-        verify(personalscheduleRepository, times(1)).findAll();
-        String responseString = response.getResponse().getContentAsString();
-        assertEquals(ps2String, responseString);
-    }
-    
-    @WithMockUser(roles = { "USER" })
-    @Test
-    public void api_schedule_user_post_invalid_name() throws Exception {
-        // arrange
-        User u = currentUserService.getCurrentUser().getUser();
-
-        // act
-        // ThisSixteenChars -> exactly 16 characters to consider boundary change in mutation tests
-        MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?description=theDescription&name=ThisNameIsWayTooLong&quarter=W22")
-                        .with(csrf()))
-                .andExpect(status().isNotFound()).andReturn();
-
-        // assert
-        Map<String, Object> json = responseToJson(response);
-        assertEquals("Name: ThisNameIsWayTooLong too long (Name must be no more than 15 characters)", json.get("message"));
-        assertEquals("CharLimitExceededException", json.get("type"));
-    }
-
     @WithMockUser(roles = { "USER" })
     @Test
     public void api_schedules_post__user_logged_in_cannot_post_schedule_if_name_and_quarter_already_exists() throws Exception {
@@ -825,62 +663,6 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         assertEquals("NameAndQuarterExistsException", json.get("type"));
     }
 
-    @WithMockUser(roles = { "USER" })
-    @Test
-    public void api_schedules_post__user_logged_in_can_post_schedule_if_quarter_does_not_already_exist() throws Exception {
-        // arrange
-        User user = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule p1 = PersonalSchedule.builder().name("NameLengthened1").description("Description1").quarter("20222").user(user).id(0L).build();
-        PersonalSchedule p2 = PersonalSchedule.builder().name("NameLengthened1").description("Description1").quarter("20221").user(user).id(1L).build();
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(p2));
-
-        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
-        when(personalscheduleRepository.save(eq(p1))).thenReturn(p1);
-
-        // act
-        MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=NameLengthened1&quarter=20222")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        // assert
-        // verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
-        verify(personalscheduleRepository, times(1)).save(p1);
-        String responseString = response.getResponse().getContentAsString();
-        String expectedJson = mapper.writeValueAsString(p1);
-        assertEquals(expectedJson, responseString);
-    }
-
-    @WithMockUser(roles = { "USER" })
-    @Test
-    public void api_schedules_post__user_logged_in_can_post_schedule_if_name_does_not_already_exist() throws Exception {
-        // arrange
-        User user = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule p1 = PersonalSchedule.builder().name("NameLengthened1").description("Description1").quarter("20222").user(user).id(0L).build();
-        PersonalSchedule p2 = PersonalSchedule.builder().name("NameLengthened2").description("Description1").quarter("20222").user(user).id(1L).build();
-
-        ArrayList<PersonalSchedule> expectedSchedules = new ArrayList<>();
-        expectedSchedules.addAll(Arrays.asList(p2));
-
-        when(personalscheduleRepository.findAllByUserId(user.getId())).thenReturn(expectedSchedules);
-        when(personalscheduleRepository.save(eq(p1))).thenReturn(p1);
-
-        // act
-        MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?description=Description1&name=NameLengthened1&quarter=20222")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        // assert
-        // verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
-        verify(personalscheduleRepository, times(1)).save(p1);
-        String responseString = response.getResponse().getContentAsString();
-        String expectedJson = mapper.writeValueAsString(p1);
-        assertEquals(expectedJson, responseString);
-    }
-
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
     public void api_schedules_post__admin_logged_in_cannot_post_schedule_if_name_and_quarter_already_exists() throws Exception {
@@ -913,28 +695,6 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         verify(personalscheduleRepository, times(3)).findAllByUserId(user.getId());
         Map<String, Object> json = responseToJson(response);
         assertEquals("NameAndQuarterExistsException", json.get("type"));
-    }
-    
-    public void api_schedules_post_fifteen_char_name() throws Exception {
-        // arrange
-
-        User thisUser = currentUserService.getCurrentUser().getUser();
-
-        PersonalSchedule expectedSchedule = PersonalSchedule.builder().name("15 Characters!!").description("Test Description").quarter("20222").user(thisUser).id(0L).build();
-
-        when(personalscheduleRepository.save(eq(expectedSchedule))).thenReturn(expectedSchedule);
-
-        // act
-        MvcResult response = mockMvc.perform(
-                post("/api/personalschedules/post?name=15 Characters!!&description=Test Description&quarter=20222")
-                        .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
-
-        // assert
-        verify(personalscheduleRepository, times(1)).save(expectedSchedule);
-        String expectedJson = mapper.writeValueAsString(expectedSchedule);
-        String responseString = response.getResponse().getContentAsString();
-        assertEquals(expectedJson, responseString);
     }
 
 }

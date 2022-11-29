@@ -1,15 +1,17 @@
 package edu.ucsb.cs156.courses.documents;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
-public class Section implements Cloneable {
+@AllArgsConstructor
+public class Section {
 
     /** a unique number assigned to a section */
     private String enrollCode;
@@ -71,26 +73,4 @@ public class Section implements Cloneable {
      * List of {@link Instructor} objects for this course
      */
     private List<Instructor> instructors;
-
-    public Object clone() throws CloneNotSupportedException {
-
-        Section newSection = (Section) super.clone();
-        // List<String> copyConcurrentCourses = new ArrayList<>();
-        // Collections.copy(copyConcurrentCourses, this.getConcurrentCourses());
-        // newSection.setConcurrentCourses(copyConcurrentCourses);
-
-        // List<TimeLocation> copyTimeLocations = new ArrayList<>();
-        // for (TimeLocation tl : this.getTimeLocations()) {
-        //     copyTimeLocations.add((TimeLocation) tl.clone());
-        // }
-        // newSection.setTimeLocations(copyTimeLocations);
-
-        // List<Instructor> copyInstructors = new ArrayList<>();
-        // for (Instructor i : this.getInstructors()) {
-        //     copyInstructors.add((Instructor) i.clone());
-        // }
-        // newSection.setInstructors(copyInstructors);
-
-        return newSection;
-    }
 }

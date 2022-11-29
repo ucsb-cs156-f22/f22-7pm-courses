@@ -4,11 +4,7 @@
 # Stryker reports
 
 frontend/.stryker-tmp
-/.stryker-tmp
 frontend/reports
-
-.history
-frontend/strykerTmp
 
 # Don't check in a built storybook #
 

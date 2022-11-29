@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class Instructor implements Cloneable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Instructor {
     private String instructor;
     private String functionCode;
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }

@@ -8,7 +8,6 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
     const originalModule = jest.requireActual('react-toastify');
@@ -52,6 +51,7 @@ describe("CoursesCreatePage tests", () => {
     });
 
     test("when you fill in the form and hit submit, it makes a request to the backend", async () => {
+
         const queryClient = new QueryClient();
         const courses = {
             id: "17",
@@ -71,7 +71,7 @@ describe("CoursesCreatePage tests", () => {
 
         expect(await screen.findByTestId("CourseForm-psId")).toBeInTheDocument();
         
-        const psIdField = document.querySelector("#CourseForm-psId");
+        const psIdField = screen.getByTestId("CourseForm-psId");
         const enrollCdField = screen.getByTestId("CourseForm-enrollCd");
         const submitButton = screen.getByTestId("CourseForm-submit");
 
@@ -84,15 +84,17 @@ describe("CoursesCreatePage tests", () => {
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
+        // expect(quarterField).toHaveValue("20124");
+        //expect(setQuarter).toBeCalledWith("20124"); //need this and axiosMock below?
+
         expect(axiosMock.history.post[0].params).toEqual(
             {
-            "psId": "",
+            "psId": "13",
             "enrollCd": "08250",
         });
 
         expect(mockToast).toBeCalledWith("New course Created - id: 17 enrollCd: 08250");
         expect(mockNavigate).toBeCalledWith({ "to": "/courses/list" });
-        
     });
 
 
