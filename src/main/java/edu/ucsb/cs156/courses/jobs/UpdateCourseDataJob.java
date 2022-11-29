@@ -18,16 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpdateCourseDataJob implements JobContextConsumer {
 
-    @Getter private String subjectArea;
+    //@Getter private String subjectArea;
     @Getter private String quarterYYYYQ;
     @Getter private UCSBCurriculumService ucsbCurriculumService;
     @Getter private ConvertedSectionCollection convertedSectionCollection;
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Updating courses for [" + subjectArea + " " + quarterYYYYQ + "]");
-
-        List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea, quarterYYYYQ,
+        //ctx.log("Updating courses for [" + subjectArea + " " + quarterYYYYQ + "]");
+        ctx.log("Updating courses for [" + quarterYYYYQ + "]");
+        List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(quarterYYYYQ,
                 "A");
 
         ctx.log("Found " + convertedSections.size() + " sections");
