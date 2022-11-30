@@ -30,7 +30,7 @@ export default function SectionsTableBase({ columns, data, testid = "testid"}) {
           prepareRow(row)
           return (
             <>
-            {row.cells[0].isGrouped || (!row.cells[0].isGrouped && row.allCells[3].value) ? 
+            {row.cells[0].isGrouped || (!row.cells[0].isGrouped && row.allCells[4].value) ? 
             <tr {...row.getRowProps()}>
               {row.cells.map((cell, _index) => {
                 return (
