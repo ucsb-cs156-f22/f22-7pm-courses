@@ -133,26 +133,6 @@ describe("PersonalSchedulesDetailsPage tests", () => {
               
         });
 
-        // add ECE 15A (enrollCd 12815 for W22)
-        // axiosMock.onPost('/api/courses/post',{params:{enrollCd:'12815',psId:'1'}}).reply(200, {
-        //     "id": 17,
-        //     "user": {
-        //       "id": 1,
-        //       "email": "phtcon@ucsb.edu",
-        //       "googleSub": "115856948234298493496",
-        //       "pictureUrl": "https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
-        //       "fullName": "Phill Conrad",
-        //       "givenName": "Phill",
-        //       "familyName": "Conrad",
-        //       "emailVerified": true,
-        //       "locale": "en",
-        //       "hostedDomain": "ucsb.edu",
-        //       "admin": true
-        //     },
-        //     "enrollCd": "12815",
-        //     "psId": 1 
-        // });
-
         axiosMock.onGet('/api/personalSections/all?psId=17').reply(200, [
             {
               "quarter": "20221",
@@ -202,16 +182,6 @@ describe("PersonalSchedulesDetailsPage tests", () => {
 
           ]);
 
-        // const courses = {
-        //     id: 17,
-        //     psId: 1,
-        //     enrollCd: "12815",
-        // };
-
-        // axiosMock.onPost("/api/courses/post").reply( 200, courses );
-
-
-
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -232,7 +202,7 @@ describe("PersonalSchedulesDetailsPage tests", () => {
         
         // PersonalSectionsTable
         await waitFor(() =>{
-        expect(screen.getByTestId(`${sectionsTestId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 15");
+            expect(screen.getByTestId(`${sectionsTestId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 15");
         });
     });
 
