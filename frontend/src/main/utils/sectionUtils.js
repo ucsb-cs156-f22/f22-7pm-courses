@@ -16,8 +16,6 @@ export const boldIfNotSection = (code) => {
     }
 }
 
-
-
 export const convertToFraction = (en1, en2) => {
     return (en1 != null && en2 != null) ? `${en1}/${en2}` : "";
 }
