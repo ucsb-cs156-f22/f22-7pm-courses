@@ -47,7 +47,7 @@
 //     @Test
 //     public void test_basicSearch_badUrl() throws Exception {
         
-//         Optional<ConvertedSection> expectedResult = new ArrayList<Course>();
+//         Optional<ConvertedSection> expectedResult = new Optional<ConvertedSection>();
 //         String urlTemplate = "/api/public/history/coursesearch?"
 //             +      "startQtr=%s"
 //             +       "&endQtr=%s"
