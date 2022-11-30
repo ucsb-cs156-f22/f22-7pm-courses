@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ucsb.cs156.courses.documents.ConvertedSection;
+import lombok.extern.slf4j.Slf4j;
 import edu.ucsb.cs156.courses.collections.ConvertedSectionCollection;
 
 @RestController
 @RequestMapping("/api/public/courseHistory")
+@Slf4j
 public class HistoryCourseSearchController {
     private final Logger logger = LoggerFactory.getLogger(HistoryCourseSearchController.class);
 
@@ -37,14 +39,17 @@ public class HistoryCourseSearchController {
         @RequestParam String courseSuf) 
         throws JsonProcessingException {
 
+        String formattedCourseName = makeFormattedCourseName(subjectArea, courseNumber, courseSuf);
+        log.info("courseName = '{}'",formattedCourseName);
         
         List<ConvertedSection> courseResults = convertedSectionCollection.findByQuarterIntervalAndCourseId(
             startQtr, 
             endQtr, 
-            makeFormattedCourseName(subjectArea, courseNumber, courseSuf)
+            formattedCourseName
         );
 
         String body = mapper.writeValueAsString(courseResults);
+        log.info("body = {}",body);
 
         return ResponseEntity.ok().body(body);
     }
