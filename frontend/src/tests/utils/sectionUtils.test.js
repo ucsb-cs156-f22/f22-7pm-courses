@@ -53,7 +53,7 @@ const testInstructors = [
 describe("To bold tests", () => {
     test("If correct number bolds", () => {
         expect(boldIfNotSection("1000")).toStrictEqual(<div style={{fontWeight: "bold"}}>1000</div>);
-        expect(() => {boldIfNotSection("abc"); }).toThrow("The parameter must be a number");
+        expect(() => {boldIfNotSection("abc"); }).toThrow("The parameter must be a number!");
         expect(boldIfNotSection("1001")).toBe("1001");
     });
 });
