@@ -51,7 +51,11 @@ export default function PersonalScheduleEditPage() {
   const { isSuccess } = mutation
 
   const onSubmit = async (data) => {
-    mutation.mutate(data);
+    const quarter = {
+        quarter: localStorage["PersonalScheduleForm-quarter"]
+    }
+    const dataFinal = Object.assign(data, quarter)
+    mutation.mutate(dataFinal);
   }
 
   if (isSuccess) {
