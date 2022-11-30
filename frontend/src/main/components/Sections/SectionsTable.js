@@ -2,6 +2,7 @@ import SectionsTableBase from "main/components/SectionsTableBase";
 
 import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
 import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime, isSection } from "main/utils/sectionUtils.js";
+import { boldIfNotSection, fraction_w_percent } from "main/utils/sectionUtils";
 
 
 function getFirstVal(values) {
@@ -46,7 +47,7 @@ export default function SectionsTable({ sections }) {
         },
         {
             Header: 'Enrolled',
-            accessor: (row) => convertToFraction(row.section.enrolledTotal, row.section.maxEnroll),
+            accessor: (row, _rowIndex) => fraction_w_percent(row.section.enrolledTotal, row.section.maxEnroll),
             disableGroupBy: true,
             id: 'enrolled',
 

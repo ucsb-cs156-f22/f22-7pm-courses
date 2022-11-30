@@ -4,6 +4,17 @@ export const convertToFraction = (en1, en2) => {
     return (en1 != null && en2 != null) ? `${en1}/${en2}` : "";
 }
 
+export const fraction_w_percent = (num, denom) => {
+    if ((num === null) || (denom === null)) {
+        if (denom !== null) {
+            return denom;
+        }
+        return '';
+    }
+    let percent = (parseInt(num) / parseInt(denom)) * 100;
+    percent = percent.toFixed();
+    return `${num}/${denom} (${percent}%)`;
+}
 
 // Takes a time location array and returns the locations
 export const formatLocation = (timeLocationArray) => {

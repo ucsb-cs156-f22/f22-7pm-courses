@@ -1,4 +1,5 @@
 import {convertToFraction, formatLocation, isSection, formatDays, formatTime, formatInstructors} from "main/utils/sectionUtils"
+import { boldIfNotSection, fraction_w_percent } from "main/utils/sectionUtils";
 
 const testTimeLocations = [
     {
@@ -50,8 +51,20 @@ const testInstructors = [
 ]
 
 describe ("section utils tests", () => {
+
+    test("fraction with percent test", () => {
+        expect(fraction_w_percent(null, null)).toBe("");
+        expect(fraction_w_percent(null, "44")).toBe("44");
+        expect(fraction_w_percent("10", "100")).toBe("10/100 (10%)");
+        expect(fraction_w_percent('2', null)).toBe("");
+    });
+
     test("convertToFraction one null test 1" , () => {
         expect(convertToFraction(null, "100")).toBe("");
+    }); 
+
+    test("convertToFraction one null test 3" , () => {
+        expect(convertToFraction("10", "100")).toBe("10/100");
     }); 
 
     test("convertToFraction one null test 2" , () => {
