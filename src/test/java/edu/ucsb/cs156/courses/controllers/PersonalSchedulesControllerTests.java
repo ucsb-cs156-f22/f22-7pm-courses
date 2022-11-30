@@ -535,7 +535,6 @@ public void api_schedules__user_logged_in__can_put_schedule_that_does_not_alread
         PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
 
-//     String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
@@ -569,7 +568,6 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened1").description("Description 2").quarter("20222").user(user).id(77L).build();
 
-//     String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
