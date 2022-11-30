@@ -7,7 +7,7 @@ import { useSystemInfo } from "main/utils/systemInfo";
 import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
 import { useBackend  } from "main/utils/useBackend";
 
-const UpdateCoursesJobForm = ({ callback }) => {
+const UpdateCoursesQuarterJobForm = ({ callback }) => {
 
   const { data: systemInfo } = useSystemInfo();
 
@@ -63,4 +63,4 @@ const UpdateCoursesJobForm = ({ callback }) => {
   );
 };
 
-export default UpdateCoursesJobForm;
+export default UpdateCoursesQuarterJobForm;
