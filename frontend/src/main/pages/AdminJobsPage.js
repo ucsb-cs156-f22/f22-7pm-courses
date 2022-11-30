@@ -57,27 +57,6 @@ const AdminJobsPage = () => {
         updateCoursesJobMutation.mutate(data);
     }
 
-    // here
-    const objectToAxiosParamsUpdateCoursesQuarterJob = (data) => ({
-        url: `/api/jobs/launch/updateCourses?quarterYYYYQ=${data.quarter}`,
-        method: "POST"
-    });
-
-    // Stryker disable all
-    const updateCoursesQuarterJobMutation = useBackendMutation(
-        objectToAxiosParamsUpdateCoursesQuarterJob,
-        {},
-        ["/api/jobs/all"]
-    );
-
-    
-    // Stryker enable all
-
-    const submitUpdateCoursesQuarterJob = async (data) => {
-        console.log("submitUpdateCoursesQuarterJob, data=", data);
-        updateCoursesQuarterJobMutation.mutate(data);
-    }
-    //to here
 
     // Stryker disable all 
     const { data: jobs, error: _error, status: _status } =
