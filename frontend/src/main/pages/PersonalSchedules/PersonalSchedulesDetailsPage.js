@@ -28,7 +28,7 @@ export default function PersonalSchedulesDetailsPage() {
                 <PersonalSchedulesTable personalSchedules={[personalSchedule]} showButtons={false} />
             }
             <p>
-                This is where the list of courses will go 
+                This is where the list of courses will go (from PersonalSectionsTable)
             </p>
       </div>
     </BasicLayout>
