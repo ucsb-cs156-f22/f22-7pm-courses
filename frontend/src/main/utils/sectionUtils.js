@@ -1,9 +1,24 @@
 import { hhmmTohhmma, convertToTimeRange } from "main/utils/timeUtils.js"
 
+export const boldIfNotSection = (code) => {
+    let n = parseInt(code);
+    if (isNaN(n)) 
+    {
+        throw new Error("The parameter must be a number!");
+    }
+    else if (n % 100 !== 0) 
+    {
+        return code;
+    }
+    else 
+    {
+        return (<div style={{fontWeight: "bold"}}>{code}</div>)
+    }
+}
+
 export const convertToFraction = (en1, en2) => {
     return (en1 != null && en2 != null) ? `${en1}/${en2}` : "";
 }
-
 
 // Takes a time location array and returns the locations
 export const formatLocation = (timeLocationArray) => {
