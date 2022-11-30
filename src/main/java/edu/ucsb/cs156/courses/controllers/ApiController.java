@@ -29,16 +29,7 @@ public abstract class ApiController {
     return Map.of("message", message);
   }
 
-  @ExceptionHandler({ CharLimitExceededException.class, NameAndQuarterExistsException.class })
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public Object handleCustomExceptions(Throwable e) {
-    return Map.of(
-      "type", e.getClass().getSimpleName(),
-      "message", e.getMessage()
-    );
-  }
-
-  @ExceptionHandler({ EntityNotFoundException.class, BadEnrollCdException.class })
+  @ExceptionHandler({ EntityNotFoundException.class, BadEnrollCdException.class, CharLimitExceededException.class, NameAndQuarterExistsException.class })
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public Object handleGenericException(Throwable e) {
     return Map.of(
