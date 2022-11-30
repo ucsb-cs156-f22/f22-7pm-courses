@@ -1,8 +1,8 @@
 import SectionsTableBase from "main/components/SectionsTableBase";
 
 import { yyyyqToQyy } from "main/utils/quarterUtilities.js";
-import { convertToFraction, formatDays, formatInstructors, formatLocation, formatTime, isSection } from "main/utils/sectionUtils.js";
-import { boldIfNotSection, fraction_w_percent } from "main/utils/sectionUtils";
+import { _convertToFraction, formatDays, formatInstructors, formatLocation, formatTime, isSection } from "main/utils/sectionUtils.js";
+import { _boldIfNotSection, fraction_w_percent } from "main/utils/sectionUtils";
 
 
 function getFirstVal(values) {
