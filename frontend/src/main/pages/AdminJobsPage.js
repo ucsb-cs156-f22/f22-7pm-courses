@@ -82,7 +82,7 @@ const AdminJobsPage = () => {
         },
         {
             name: "Update Courses Database By Quarter Only",
-            form: <UpdateCoursesQuarterJobForm callback={submitUpdateCoursesQuarterJob}  />
+            form: <UpdateCoursesQuarterJobForm callback={submitUpdateCoursesJob}  />
         },
         {
             name: "Update Grade Info",
