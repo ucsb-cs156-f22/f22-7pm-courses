@@ -254,12 +254,13 @@ public class Quarter {
         int startInt = Quarter.qyyToQyyyy(start);
         int endInt = Quarter.qyyToQyyyy(end);
 
-        if (startInt <= endInt) {
+        if (startInt < endInt) {
             for (Quarter iter = new Quarter(startInt); iter.getValue() <= endInt; iter.increment()) {
                 Quarter q = new Quarter(iter.getValue());
                 result.add(q);
             }
-        } else {
+        } 
+        else if (startInt >= endInt) {
             for (Quarter iter = new Quarter(startInt); iter.getValue() >= endInt; iter.decrement()) {
             Quarter q = new Quarter(iter.getValue());
             result.add(q);
