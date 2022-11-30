@@ -2,8 +2,8 @@ import React from "react";
 import { useTable, useGroupBy, useExpanded } from 'react-table'
 import { Table } from "react-bootstrap";
 
-const COURSE_ID_COLUMN = 0
-const ENROLLED_NUM_COLUMN = 4
+const COURSE_ID_COLUMN = 0;
+const ENROLLED_NUM_COLUMN = 4;
 // Stryker disable StringLiteral, ArrayDeclaration
 export default function SectionsTableBase({ columns, data, testid = "testid"}) {
   
