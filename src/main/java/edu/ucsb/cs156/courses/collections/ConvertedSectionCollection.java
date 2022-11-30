@@ -14,8 +14,8 @@ public interface ConvertedSectionCollection extends MongoRepository<ConvertedSec
     @Query("{'courseInfo.quarter': ?0, 'section.enrollCode': ?1}")
     Optional<ConvertedSection> findOneByQuarterAndEnrollCode(String quarter, String enrollCode);
 
-    //@Query("{'courseInfo.quarter': {$gte : ?0, $lte : ?1}, 'courseInfo.courseId':  {$regex: ?2 }}")
+    @Query("{'courseInfo.quarter': {$gte : ?0, $lte : ?1}, 'courseInfo.courseId':  {$regex: ?2 }}")
     //@Query("{'courseInfo.quarter': {$gte : '20201', $lte : '20221'}, 'courseInfo.courseId':  'ART       1A -1'}")
-    @Query("{}")
+    //@Query("{}")
     List<ConvertedSection> findByQuarterIntervalAndCourseId(String startQuarter, String endQuarter, String formattedCourseId);
 }

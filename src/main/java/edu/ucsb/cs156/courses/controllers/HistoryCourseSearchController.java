@@ -23,7 +23,6 @@ import edu.ucsb.cs156.courses.collections.ConvertedSectionCollection;
 @Slf4j
 public class HistoryCourseSearchController {
     private final Logger logger = LoggerFactory.getLogger(HistoryCourseSearchController.class);
-
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
@@ -40,9 +39,8 @@ public class HistoryCourseSearchController {
         throws JsonProcessingException {
 
         String formattedCourseName = makeFormattedCourseName(subjectArea, courseNumber, courseSuf);
-        log.info("courseName = '{}'",formattedCourseName);
         
-        List<ConvertedSection> courseResults = convertedSectionCollection.findByQuarterIntervalAndCourseId(
+        List<ConvertedSection> courseResults = convertedSectionCollection.findByQuarterIntervalAndCourseId( //mock this
             startQtr, 
             endQtr, 
             formattedCourseName
