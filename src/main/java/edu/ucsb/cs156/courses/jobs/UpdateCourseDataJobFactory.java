@@ -22,9 +22,4 @@ public class UpdateCourseDataJobFactory  {
         log.info("convertedSectionCollection = " + convertedSectionCollection);
         return new UpdateCourseDataJob(subjectArea, quarterYYYYQ, ucsbCurriculumService, convertedSectionCollection);
     }
-    public UpdateCourseDataJobQuarters createByQuarter(String quarterYYYYQ) {
-        log.info("ucsbCurriculumService = " + ucsbCurriculumService);
-        log.info("convertedSectionCollection = " + convertedSectionCollection);
-        return new UpdateCourseDataJobQuarters(quarterYYYYQ, ucsbCurriculumService, convertedSectionCollection);
-    }
 }

@@ -18,49 +18,51 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpdateCourseDataJobQuarters implements JobContextConsumer {
 
-    @Getter private String subjectArea;
     @Getter private String quarterYYYYQ;
     @Getter private UCSBCurriculumService ucsbCurriculumService;
     @Getter private ConvertedSectionCollection convertedSectionCollection;
+    @Getter private List<String> subjects;
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Updating courses for [" + quarterYYYYQ + "]");
-        
-        List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea,quarterYYYYQ,
-                "A");
+        for (String subjectArea : subjects) {
+            ctx.log("Updating courses for [" + subjectArea + " " + quarterYYYYQ + "]");
 
-        ctx.log("Found " + convertedSections.size() + " sections");
-        ctx.log("Storing in MongoDB Collection...");
+            List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea, quarterYYYYQ,
+                    "A");
 
-        int newSections = 0;
-        int updatedSections = 0;
-        int errors = 0;
+            ctx.log("Found " + convertedSections.size() + " sections");
+            ctx.log("Storing in MongoDB Collection...");
 
-        for (ConvertedSection section : convertedSections) {
-            try {
-                String quarter = section.getCourseInfo().getQuarter();
-                String enrollCode =  section.getSection().getEnrollCode();
-                Optional<ConvertedSection> optionalSection = convertedSectionCollection
-                        .findOneByQuarterAndEnrollCode(quarter,enrollCode);
-                if (optionalSection.isPresent()) {
-                    ConvertedSection existingSection = optionalSection.get();
-                    existingSection.setCourseInfo(section.getCourseInfo());
-                    existingSection.setSection(section.getSection());
-                    convertedSectionCollection.save(existingSection);
-                    updatedSections++;
-                } else {
-                    convertedSectionCollection.save(section);
-                    newSections++;
+            int newSections = 0;
+            int updatedSections = 0;
+            int errors = 0;
+
+            for (ConvertedSection section : convertedSections) {
+                try {
+                    String quarter = section.getCourseInfo().getQuarter();
+                    String enrollCode =  section.getSection().getEnrollCode();
+                    Optional<ConvertedSection> optionalSection = convertedSectionCollection
+                            .findOneByQuarterAndEnrollCode(quarter,enrollCode);
+                    if (optionalSection.isPresent()) {
+                        ConvertedSection existingSection = optionalSection.get();
+                        existingSection.setCourseInfo(section.getCourseInfo());
+                        existingSection.setSection(section.getSection());
+                        convertedSectionCollection.save(existingSection);
+                        updatedSections++;
+                    } else {
+                        convertedSectionCollection.save(section);
+                        newSections++;
+                    }
+                } catch (Exception e) {
+                    ctx.log("Error saving section: " + e.getMessage());
+                    errors++;
                 }
-            } catch (Exception e) {
-                ctx.log("Error saving section: " + e.getMessage());
-                errors++;
             }
+        
+            ctx.log(String.format("%d new sections saved, %d sections updated, %d errors", newSections, updatedSections,
+                    errors));
+            ctx.log("Courses for [" + subjectArea + " " + quarterYYYYQ + "] have been updated");
         }
-    
-        ctx.log(String.format("%d new sections saved, %d sections updated, %d errors", newSections, updatedSections,
-                errors));
-        ctx.log("Courses for [" + quarterYYYYQ + "] have been updated");
     }
 }
