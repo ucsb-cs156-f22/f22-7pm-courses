@@ -34,7 +34,7 @@ const AdminJobsPage = () => {
     }
 
     // ***** update courses job *******
-
+    
     const objectToAxiosParamsUpdateCoursesJob = (data) => ({
         url: `/api/jobs/launch/updateCourses?quarterYYYYQ=${data.quarter}&subjectArea=${data.subject}`,
         method: "POST"

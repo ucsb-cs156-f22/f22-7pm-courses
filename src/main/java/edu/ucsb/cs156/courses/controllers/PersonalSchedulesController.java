@@ -4,6 +4,7 @@ import edu.ucsb.cs156.courses.entities.PersonalSchedule;
 import edu.ucsb.cs156.courses.entities.User;
 import edu.ucsb.cs156.courses.errors.CharLimitExceededException;
 import edu.ucsb.cs156.courses.errors.EntityNotFoundException;
+import edu.ucsb.cs156.courses.errors.NameAndQuarterExistsException;
 import edu.ucsb.cs156.courses.models.CurrentUser;
 import edu.ucsb.cs156.courses.repositories.PersonalScheduleRepository;
 import io.swagger.annotations.Api;
@@ -28,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Api(description = "PersonalSchedules")
@@ -88,6 +92,15 @@ public class PersonalSchedulesController extends ApiController {
             @ApiParam("quarter") @RequestParam String quarter) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
+        
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getUser().getId());
+        
+        for (PersonalSchedule ps : allSchedules) {
+          if (ps.getName().equals(name) && ps.getQuarter().equals(quarter)) {
+            //a schedule with the same name and quarter already exist, so throw exception
+            throw new NameAndQuarterExistsException(ps.getName(), ps.getQuarter());
+          }
+        }
 
         if (name.length() > 15) {
           throw new CharLimitExceededException(name);
@@ -144,6 +157,15 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setDescription(incomingSchedule.getDescription());
         personalschedule.setQuarter(incomingSchedule.getQuarter());
 
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAllByUserId(currentUser.getId());
+
+        for (PersonalSchedule schedule : allSchedules) {
+          if (incomingSchedule.getName().equals(schedule.getName())) {
+            if (incomingSchedule.getQuarter().equals(schedule.getQuarter())) {
+              throw new NameAndQuarterExistsException(personalschedule.getName(), personalschedule.getQuarter());
+            }
+          }
+        }
         personalscheduleRepository.save(personalschedule);
 
         return personalschedule;
@@ -161,6 +183,17 @@ public class PersonalSchedulesController extends ApiController {
         personalschedule.setName(incomingSchedule.getName());
         personalschedule.setDescription(incomingSchedule.getDescription());
         personalschedule.setQuarter(incomingSchedule.getQuarter());
+        
+
+        Iterable<PersonalSchedule> allSchedules = personalscheduleRepository.findAll();
+
+        for (PersonalSchedule schedule : allSchedules) {
+          if (incomingSchedule.getName().equals(schedule.getName())) {
+            if (incomingSchedule.getQuarter().equals(schedule.getQuarter())) {
+              throw new NameAndQuarterExistsException(incomingSchedule.getName(), incomingSchedule.getQuarter());
+            }
+          }
+        }
 
         personalscheduleRepository.save(personalschedule);
 
