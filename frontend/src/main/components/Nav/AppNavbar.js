@@ -13,7 +13,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
           <AppNavbarLocalhost url={currentUrl} />
         )
       }
-      <Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar">
+      <Navbar expand="xl" variant="dark" className="color-nav" sticky="top" data-testid="AppNavbar">
         <Container >
         <img data-testid="AppNavbarImage" src={headerImg} alt="" style={{width: 80, height: 80, marginRight: 10}} />
           <Navbar.Brand as={Link} to="/">
@@ -73,8 +73,8 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
             </Nav>
 
             <Nav className="mr-auto">
-              <NavDropdown title="Section Searches" id="appnavbar-section-searches-dropdown" data-testid="appnavbar-section-searches-dropdown" >
-                <NavDropdown.Item href="/sectionsearches/search" data-testid="appnavbar-section-searches-search">Search</NavDropdown.Item>
+              <NavDropdown title="Course Descriptions" id="appnavbar-course-searches-dropdown" data-testid="appnavbar-course-searches-dropdown" >
+                <NavDropdown.Item href="/coursesearches/search" data-testid="appnavbar-course-searches-search">Search</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 
