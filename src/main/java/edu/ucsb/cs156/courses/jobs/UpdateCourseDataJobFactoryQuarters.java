@@ -21,20 +21,23 @@ public class UpdateCourseDataJobFactoryQuarters  {
 
     @Autowired
     private ConvertedSectionCollection convertedSectionCollection;
-    
+
     @Autowired
     private UCSBSubjectsController subjectsController;
 
     public UpdateCourseDataJobQuarters create(String quarterYYYYQ) {
         log.info("ucsbCurriculumService = " + ucsbCurriculumService);
         log.info("convertedSectionCollection = " + convertedSectionCollection);
+
         List<String> subjects = new ArrayList<String>();
         Iterable<UCSBSubject> allSubs = subjectsController.allSubjects();
+
         for (UCSBSubject UCSBSubject : allSubs) {
             try {
                 subjects.add(UCSBSubject.getSubjectCode());
             } catch (Exception e) {}
         }
+        
         return new UpdateCourseDataJobQuarters(quarterYYYYQ, ucsbCurriculumService, convertedSectionCollection, subjects);
     }
 }
