@@ -2,19 +2,20 @@ import { hhmmTohhmma, convertToTimeRange } from "main/utils/timeUtils.js"
 
 export const boldIfNotSection = (code) => {
     let n = parseInt(code);
-    if (n % 100 !== 0) 
-    {
-        return code;
-    }
-    else if (isNaN(n)) 
+    if (isNaN(n)) 
     {
         throw new Error("The parameter must be a number!");
+    }
+    else if (n % 100 !== 0) 
+    {
+        return code;
     }
     else 
     {
         return (<div style={{fontWeight: "bold"}}>{code}</div>)
     }
 }
+
 
 
 export const convertToFraction = (en1, en2) => {
