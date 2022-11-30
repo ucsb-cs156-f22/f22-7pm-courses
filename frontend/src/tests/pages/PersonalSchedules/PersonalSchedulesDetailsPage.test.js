@@ -134,73 +134,73 @@ describe("PersonalSchedulesDetailsPage tests", () => {
         });
 
         // add ECE 15A (enrollCd 12815 for W22)
-        axiosMock.onPost('/api/courses/post?enrollCd=12815&psId=1').reply(200, {
-            "id": 17,
-            "user": {
-              "id": 1,
-              "email": "phtcon@ucsb.edu",
-              "googleSub": "115856948234298493496",
-              "pictureUrl": "https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
-              "fullName": "Phill Conrad",
-              "givenName": "Phill",
-              "familyName": "Conrad",
-              "emailVerified": true,
-              "locale": "en",
-              "hostedDomain": "ucsb.edu",
-              "admin": true
-            },
-            "enrollCd": "12815",
-            "psId": 1 
-        });
-
-        // axiosMock.onGet('/api/personalSections/all').reply(200, [
-        //     {
-        //       "quarter": "20221",
-        //       "courseId": "ECE      15A ",
-        //       "title": "FUND OF LOGIC DES",
-        //       "description": "Boolean algebra, logic of propositions, minterm and maxterm   expansions, Karnaugh maps, Quine-McCluskey method, melti-level circuits, combinational   circuit design and simulation, multiplexers, decoders, programmable logic   devices.",
-        //       "classSections": [
-        //         {
-        //           "enrollCode": "12815",
-        //           "section": "0107",
-        //           "session": null,
-        //           "classClosed": null,
-        //           "courseCancelled": null,
-        //           "gradingOptionCode": null,
-        //           "enrolledTotal": 23,
-        //           "maxEnroll": 23,
-        //           "secondaryStatus": null,
-        //           "departmentApprovalRequired": false,
-        //           "instructorApprovalRequired": false,
-        //           "restrictionLevel": null,
-        //           "restrictionMajor": "+EE   +ECE  +CMPEN+PRCME",
-        //           "restrictionMajorPass": null,
-        //           "restrictionMinor": null,
-        //           "restrictionMinorPass": null,
-        //           "concurrentCourses": [],
-        //           "timeLocations": [
-        //             {
-        //               "room": "1231",
-        //               "building": "HSSB",
-        //               "roomCapacity": "26",
-        //               "days": "    F  ",
-        //               "beginTime": "10:00",
-        //               "endTime": "10:50"
-        //             }
-        //           ],
-        //           "instructors": [
-        //             {
-        //               "instructor": "CHEN ZHUOTONG",
-        //               "functionCode": "Teaching but not in charge"
-        //             }
-        //           ]
-        //         }
-        //       ],
-        //       "generalEducation": [],
-        //       "finalExam": null
+        // axiosMock.onPost('/api/courses/post',{params:{enrollCd:'12815',psId:'1'}}).reply(200, {
+        //     "id": 17,
+        //     "user": {
+        //       "id": 1,
+        //       "email": "phtcon@ucsb.edu",
+        //       "googleSub": "115856948234298493496",
+        //       "pictureUrl": "https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
+        //       "fullName": "Phill Conrad",
+        //       "givenName": "Phill",
+        //       "familyName": "Conrad",
+        //       "emailVerified": true,
+        //       "locale": "en",
+        //       "hostedDomain": "ucsb.edu",
+        //       "admin": true
         //     },
+        //     "enrollCd": "12815",
+        //     "psId": 1 
+        // });
 
-        //   ]);
+        axiosMock.onGet('/api/personalSections/all?psId=17').reply(200, [
+            {
+              "quarter": "20221",
+              "courseId": "ECE      15A ",
+              "title": "FUND OF LOGIC DES",
+              "description": "Boolean algebra, logic of propositions, minterm and maxterm   expansions, Karnaugh maps, Quine-McCluskey method, melti-level circuits, combinational   circuit design and simulation, multiplexers, decoders, programmable logic   devices.",
+              "classSections": [
+                {
+                  "enrollCode": "12815",
+                  "section": "0107",
+                  "session": null,
+                  "classClosed": null,
+                  "courseCancelled": null,
+                  "gradingOptionCode": null,
+                  "enrolledTotal": 23,
+                  "maxEnroll": 23,
+                  "secondaryStatus": null,
+                  "departmentApprovalRequired": false,
+                  "instructorApprovalRequired": false,
+                  "restrictionLevel": null,
+                  "restrictionMajor": "+EE   +ECE  +CMPEN+PRCME",
+                  "restrictionMajorPass": null,
+                  "restrictionMinor": null,
+                  "restrictionMinorPass": null,
+                  "concurrentCourses": [],
+                  "timeLocations": [
+                    {
+                      "room": "1231",
+                      "building": "HSSB",
+                      "roomCapacity": "26",
+                      "days": "    F  ",
+                      "beginTime": "10:00",
+                      "endTime": "10:50"
+                    }
+                  ],
+                  "instructors": [
+                    {
+                      "instructor": "CHEN ZHUOTONG",
+                      "functionCode": "Teaching but not in charge"
+                    }
+                  ]
+                }
+              ],
+              "generalEducation": [],
+              "finalExam": null
+            },
+
+          ]);
 
         // const courses = {
         //     id: 17,
