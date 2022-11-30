@@ -60,7 +60,7 @@ describe("Section tests", () => {
     fireEvent.click(expandRow);
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0101");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0100");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
@@ -97,7 +97,7 @@ describe("Section tests", () => {
       expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.courseId`)).toHaveTextContent("ECE 1A");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-courseInfo.title`)).toHaveTextContent("COMP ENGR SEMINAR");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("W22");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0101");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-section.section`)).toHaveTextContent("0100");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
