@@ -501,6 +501,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
 
+        // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findByIdAndUser(eq(77L), eq(user))).thenReturn(Optional.of(ps1));
@@ -517,7 +518,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
                         .characterEncoding("utf-8")
                         .content(ps2String)
                         .with(csrf()))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findByIdAndUser(77L, user);
@@ -671,6 +672,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         PersonalSchedule ps1 = PersonalSchedule.builder().name("Name 1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("Name 2").description("Description 2").quarter("20222").user(user).id(78L).build();
 
+        // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
@@ -687,7 +689,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
                         .characterEncoding("utf-8")
                         .content(ps2String)
                         .with(csrf()))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findById(77L);
@@ -706,6 +708,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened2").description("Description 2").quarter("20222").user(user).id(77L).build();
 
+        // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
@@ -741,6 +744,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         PersonalSchedule ps1Array = PersonalSchedule.builder().name("NameLengthened1").description("Description 1").quarter("20221").user(user).id(77L).build();
         PersonalSchedule ps2 = PersonalSchedule.builder().name("NameLengthened1").description("Description 2").quarter("20222").user(user).id(77L).build();
 
+        // String ps1String = mapper.writeValueAsString(ps1);
         String ps2String = mapper.writeValueAsString(ps2);
 
         when(personalscheduleRepository.findById(eq(77L))).thenReturn(Optional.of(ps1));
@@ -777,7 +781,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=theDescription&name=ThisNameIsWayTooLong&quarter=W22")
                         .with(csrf()))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().isNotFound()).andReturn();
 
         // assert
         Map<String, Object> json = responseToJson(response);
@@ -801,7 +805,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
@@ -881,7 +885,7 @@ public void api_schedules__user_logged_in__can_put_schedule_with_quarter_that_do
         MvcResult response = mockMvc.perform(
                 post("/api/personalschedules/post?description=Description1&name=Name1&quarter=20222")
                         .with(csrf()))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().is(404)).andReturn();
 
         // assert
         verify(personalscheduleRepository, times(1)).findAllByUserId(user.getId());
