@@ -59,7 +59,7 @@ function PersonalScheduleForm({ initialPersonalSchedule, submitAction, buttonLab
                     type="text"
                     isInvalid={Boolean(errors.name)}
                     {...register("name", {
-                        required: "Name is required."
+                        required: "Name of up to 15 characters is required."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">

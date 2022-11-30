@@ -37,6 +37,7 @@ return (
   <BasicLayout>
     <div className="pt-2">
       <h5>Welcome to the UCSB Courses Search App!</h5>
+
       <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
       <BasicCourseTable courses={courseJSON} />
     </div>
