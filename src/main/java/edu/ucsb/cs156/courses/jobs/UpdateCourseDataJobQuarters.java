@@ -28,7 +28,7 @@ public class UpdateCourseDataJobQuarters implements JobContextConsumer {
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        ctx.log("Updating courses for [" + quarterYYYYQ + "]");
+        ctx.log("Updating quarter courses for [" + quarterYYYYQ + "]");
         List<UCSBSubject> subjects = ucsbSubjectsService.get();
         for (UCSBSubject subject : subjects) {
             String subjectArea = subject.getSubjectCode();
@@ -67,7 +67,8 @@ public class UpdateCourseDataJobQuarters implements JobContextConsumer {
         
             ctx.log(String.format("%d new sections saved, %d sections updated, %d errors", newSections, updatedSections,
                     errors));
-            ctx.log("Courses for [" + quarterYYYYQ + "] have been updated");
+            ctx.log("Courses for [" + subjectArea + " " + quarterYYYYQ + "] have been updated");
+            ctx.log("Quarter courses for [" + quarterYYYYQ + "] have been updated");
         }
     }
 }

@@ -14,7 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import edu.ucsb.cs156.courses.collections.ConvertedSectionCollection;
 import edu.ucsb.cs156.courses.services.UCSBCurriculumService;
-import edu.ucsb.cs156.courses.controllers.UCSBSubjectsController;
+import edu.ucsb.cs156.courses.services.UCSBSubjectsService;
+
 
 
 @RestClientTest(UpdateCourseDataJobFactoryQuarters.class)
@@ -28,7 +29,7 @@ public class UpdateCourseDataJobFactoryQuartersTests {
     ConvertedSectionCollection convertedSectionCollection;
 
     @MockBean
-    UCSBSubjectsController subjectsController;
+    UCSBSubjectsService ucsbSubjectsService;
 
     @Autowired
     UpdateCourseDataJobFactoryQuarters updateCourseDataOneQuarterJobFactory;
@@ -36,10 +37,16 @@ public class UpdateCourseDataJobFactoryQuartersTests {
     @Test
     void test_create() throws Exception {
 
-        UpdateCourseDataJobQuarters updateCourseDataOneQuarterJob = updateCourseDataOneQuarterJobFactory.create("20211");
-        assertEquals("20211",updateCourseDataOneQuarterJob.getQuarterYYYYQ());
-        assertEquals(ucsbCurriculumService,updateCourseDataOneQuarterJob.getUcsbCurriculumService());
-        assertEquals(convertedSectionCollection,updateCourseDataOneQuarterJob.getConvertedSectionCollection());
+        // Act
+
+        UpdateCourseDataJobQuarters updateCourseDataJobQuarters = updateCourseDataOneQuarterJobFactory.create("20211");
+
+        // Assert
+        
+        assertEquals("20211",updateCourseDataJobQuarters.getQuarterYYYYQ());
+        assertEquals(ucsbSubjectsService,updateCourseDataJobQuarters.getUcsbSubjectsService());
+        assertEquals(ucsbCurriculumService,updateCourseDataJobQuarters.getUcsbCurriculumService());
+        assertEquals(convertedSectionCollection,updateCourseDataJobQuarters.getConvertedSectionCollection());
 
     }
 }

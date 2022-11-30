@@ -31,7 +31,9 @@ import edu.ucsb.cs156.courses.documents.CoursePageFixtures;
 //import edu.ucsb.cs156.courses.documents.Section;
 import edu.ucsb.cs156.courses.entities.Job;
 import edu.ucsb.cs156.courses.services.UCSBCurriculumService;
+import edu.ucsb.cs156.courses.services.UCSBSubjectsService;
 import edu.ucsb.cs156.courses.services.jobs.JobContext;
+import edu.ucsb.cs156.courses.entities.UCSBSubject;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
@@ -44,16 +46,12 @@ public class UpdateCourseDataJobQuartersTests {
     ConvertedSectionCollection convertedSectionCollection;
 
     @Mock
-    List<String> subjects;
+    UCSBSubjectsService ucsbSubjectsService;
 
     @Test
     void test_log_output_success() throws Exception {
 
         // Arrange
-
-        subjects = new ArrayList<String>();
-        subjects.add("CMPSC");
-
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
 
@@ -62,8 +60,12 @@ public class UpdateCourseDataJobQuartersTests {
 
         List<ConvertedSection> result = coursePage.convertedSections();
 
-        UpdateCourseDataJobQuarters updateCourseDatarJobQuarter = new UpdateCourseDataJobQuarters ("20211", ucsbCurriculumService,
-                convertedSectionCollection, subjects);
+        List<UCSBSubject> testSubs = new ArrayList<UCSBSubject>();
+        testSubs.add(new UCSBSubject("CMPSC", "Computer Science", "CMPSC", "ENGR", null, false));
+        when(ucsbSubjectsService.get()).thenReturn(testSubs);
+        
+        UpdateCourseDataJobQuarters updateCourseDatarJobQuarter = new UpdateCourseDataJobQuarters (ucsbSubjectsService,"20211", ucsbCurriculumService,
+                convertedSectionCollection);
 
         when(ucsbCurriculumService.getConvertedSections(eq("CMPSC"), eq("20211"), eq("A"))).thenReturn(result);
         when(convertedSectionCollection.saveAll(any())).thenReturn(result);
@@ -75,11 +77,13 @@ public class UpdateCourseDataJobQuartersTests {
         // Assert
 
         String expected = """
+                Updating quarter courses for [20211]
                 Updating courses for [CMPSC 20211]
                 Found 14 sections
                 Storing in MongoDB Collection...
                 14 new sections saved, 0 sections updated, 0 errors
-                Courses for [CMPSC 20211] have been updated""";
+                Courses for [CMPSC 20211] have been updated
+                Quarter courses for [20211] have been updated""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -88,9 +92,6 @@ public class UpdateCourseDataJobQuartersTests {
     void test_log_output_with_updates() throws Exception {
 
         // Arrange
-
-        subjects = new ArrayList<String>();
-        subjects.add("MATH");
 
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
@@ -109,8 +110,16 @@ public class UpdateCourseDataJobQuartersTests {
         listWithTwoOrigOneDuplicate.add(section1);
         listWithTwoOrigOneDuplicate.add(section0);
 
-        UpdateCourseDataJobQuarters updateCourseDataJobQuarters = new UpdateCourseDataJobQuarters("20211", ucsbCurriculumService,
-                convertedSectionCollection, subjects);
+
+        List<UCSBSubject> testSubs = new ArrayList<UCSBSubject>();
+        testSubs.add(new UCSBSubject("MATH", "Mathematics", "MATH", "L&S", null, false));
+
+        when(ucsbSubjectsService.get()).thenReturn(testSubs);
+
+
+
+        UpdateCourseDataJobQuarters updateCourseDatarJobQuarter = new UpdateCourseDataJobQuarters(ucsbSubjectsService,"20211" , ucsbCurriculumService,
+                convertedSectionCollection);
 
         Optional<ConvertedSection> section0Optional = Optional.of(section0);
         Optional<ConvertedSection> emptyOptional = Optional.empty();
@@ -129,16 +138,18 @@ public class UpdateCourseDataJobQuartersTests {
 
         // Act
 
-        updateCourseDataJobQuarters.accept(ctx);
+        updateCourseDatarJobQuarter.accept(ctx);
 
         // Assert
 
         String expected = """
+                Updating quarter courses for [20211]
                 Updating courses for [MATH 20211]
                 Found 3 sections
                 Storing in MongoDB Collection...
                 2 new sections saved, 1 sections updated, 0 errors
-                Courses for [MATH 20211] have been updated""";
+                Courses for [MATH 20211] have been updated
+                Quarter courses for [20211] have been updated""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -147,9 +158,6 @@ public class UpdateCourseDataJobQuartersTests {
     void test_log_output_with_errors() throws Exception {
 
         // Arrange
-
-        subjects = new ArrayList<String>();
-        subjects.add("MATH");
 
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
@@ -165,32 +173,41 @@ public class UpdateCourseDataJobQuartersTests {
 
         listWithOneSection.add(section0);
 
-        UpdateCourseDataJobQuarters updateCourseDataJobQuarters = new UpdateCourseDataJobQuarters("20211", ucsbCurriculumService,
-                convertedSectionCollection, subjects);
+        List<UCSBSubject> testSubs = new ArrayList<UCSBSubject>();
+        testSubs.add(new UCSBSubject("MATH", "Mathematics", "MATH", "L&S", null, false));
 
-        // Optional<ConvertedSection> section0Optional = Optional.of(section0);
-        // Optional<ConvertedSection> emptyOptional = Optional.empty();
+        when(ucsbSubjectsService.get()).thenReturn(testSubs);
+
+
+        UpdateCourseDataJobQuarters updateCourseDatarJobQuarter = new UpdateCourseDataJobQuarters(ucsbSubjectsService,"20211" , ucsbCurriculumService,
+                convertedSectionCollection);
+
+        Optional<ConvertedSection> section0Optional = Optional.of(section0);
+        Optional<ConvertedSection> emptyOptional = Optional.empty();
 
         when(ucsbCurriculumService.getConvertedSections(eq("MATH"), eq("20211"), eq("A")))
                 .thenReturn(listWithOneSection);
+        
         when(convertedSectionCollection.findOneByQuarterAndEnrollCode(
                 eq(section0.getCourseInfo().getQuarter()),
                 eq(section0.getSection().getEnrollCode())))
                 .thenThrow(new IllegalArgumentException("Testing Exception Handling!"));
-
+        
         // Act
 
-        updateCourseDataJobQuarters.accept(ctx);
+        updateCourseDatarJobQuarter.accept(ctx);
 
         // Assert
 
         String expected = """
+                Updating quarter courses for [20211]
                 Updating courses for [MATH 20211]
                 Found 1 sections
                 Storing in MongoDB Collection...
                 Error saving section: Testing Exception Handling!
                 0 new sections saved, 0 sections updated, 1 errors
-                Courses for [MATH 20211] have been updated""";
+                Courses for [MATH 20211] have been updated
+                Quarter courses for [20211] have been updated""";
 
         assertEquals(expected, jobStarted.getLog());
     }
@@ -199,9 +216,6 @@ public class UpdateCourseDataJobQuartersTests {
     void test_updating_to_new_values() throws Exception {
 
         // Arrange
-
-        subjects = new ArrayList<String>();
-        subjects.add("MATH");
 
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
@@ -224,8 +238,13 @@ public class UpdateCourseDataJobQuartersTests {
         updatedSection.getSection().setEnrolledTotal(oldEnrollment + 1);
         listWithUpdatedSection.add(updatedSection);
 
-        UpdateCourseDataJobQuarters updateCourseDataJobQuarters = new UpdateCourseDataJobQuarters("20211", ucsbCurriculumService,
-                convertedSectionCollection, subjects);
+        List<UCSBSubject> testSubs = new ArrayList<UCSBSubject>();
+        testSubs.add(new UCSBSubject("MATH", "Mathematics", "MATH", "L&S", null, false));
+
+        when(ucsbSubjectsService.get()).thenReturn(testSubs);
+
+        UpdateCourseDataJobQuarters updateCourseDatarJobQuarter = new UpdateCourseDataJobQuarters(ucsbSubjectsService,"20211" , ucsbCurriculumService,
+                convertedSectionCollection);
 
         Optional<ConvertedSection> section0Optional = Optional.of(section0);
 
@@ -236,16 +255,18 @@ public class UpdateCourseDataJobQuartersTests {
 
         // Act
 
-        updateCourseDataJobQuarters.accept(ctx);
+        updateCourseDatarJobQuarter.accept(ctx);
 
         // Assert
 
         String expected = """
+                Updating quarter courses for [20211]
                 Updating courses for [MATH 20211]
                 Found 1 sections
                 Storing in MongoDB Collection...
                 0 new sections saved, 1 sections updated, 0 errors
-                Courses for [MATH 20211] have been updated""";
+                Courses for [MATH 20211] have been updated
+                Quarter courses for [20211] have been updated""";
 
          assertEquals(expected, jobStarted.getLog());
 
