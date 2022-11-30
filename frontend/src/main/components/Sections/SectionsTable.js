@@ -27,7 +27,7 @@ export default function SectionsTable({ sections }) {
         },
         {
             Header: 'Section',
-            accessor: (row) => boldIfNotSection(row.section.section),
+            accessor: (row, _rowIndex) => boldIfNotSection(row.section.section),
             id: 'section.section',
         },  
         {
