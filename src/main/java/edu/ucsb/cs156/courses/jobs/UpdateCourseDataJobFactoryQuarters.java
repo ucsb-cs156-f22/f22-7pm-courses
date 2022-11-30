@@ -6,15 +6,14 @@ import org.springframework.stereotype.Service;
 import edu.ucsb.cs156.courses.collections.ConvertedSectionCollection;
 import edu.ucsb.cs156.courses.services.UCSBCurriculumService;
 import edu.ucsb.cs156.courses.controllers.UCSBSubjectsController;
+import edu.ucsb.cs156.courses.services.UCSBSubjectsService;
 import edu.ucsb.cs156.courses.entities.UCSBSubject;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
-public class UpdateCourseDataJobFactoryQuarters  {
+public class UpdateCourseDataJobFactoryQuarters{
 
     @Autowired 
     private UCSBCurriculumService ucsbCurriculumService;
@@ -23,21 +22,13 @@ public class UpdateCourseDataJobFactoryQuarters  {
     private ConvertedSectionCollection convertedSectionCollection;
 
     @Autowired
-    private UCSBSubjectsController subjectsController;
+    private UCSBSubjectsService ucsbSubjectsService;
 
     public UpdateCourseDataJobQuarters create(String quarterYYYYQ) {
         log.info("ucsbCurriculumService = " + ucsbCurriculumService);
         log.info("convertedSectionCollection = " + convertedSectionCollection);
+        log.info("ucsbSubjectsSerivce = " + ucsbSubjectsService);
 
-        List<String> subjects = new ArrayList<String>();
-        Iterable<UCSBSubject> allSubs = subjectsController.allSubjects();
-
-        for (UCSBSubject UCSBSubject : allSubs) {
-            try {
-                subjects.add(UCSBSubject.getSubjectCode());
-            } catch (Exception e) {}
-        }
-        
-        return new UpdateCourseDataJobQuarters(quarterYYYYQ, ucsbCurriculumService, convertedSectionCollection, subjects);
+        return new UpdateCourseDataJobQuarters(ucsbSubjectsService,quarterYYYYQ, ucsbCurriculumService, convertedSectionCollection);
     }
 }

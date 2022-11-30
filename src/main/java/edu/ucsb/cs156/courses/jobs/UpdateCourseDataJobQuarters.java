@@ -2,11 +2,13 @@ package edu.ucsb.cs156.courses.jobs;
 
 import java.util.List;
 import java.util.Optional;
+import edu.ucsb.cs156.courses.entities.UCSBSubject;
 
 
 import edu.ucsb.cs156.courses.collections.ConvertedSectionCollection;
 import edu.ucsb.cs156.courses.documents.ConvertedSection;
 import edu.ucsb.cs156.courses.services.UCSBCurriculumService;
+import edu.ucsb.cs156.courses.services.UCSBSubjectsService;
 import edu.ucsb.cs156.courses.services.jobs.JobContext;
 import edu.ucsb.cs156.courses.services.jobs.JobContextConsumer;
 import lombok.AllArgsConstructor;
@@ -18,16 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpdateCourseDataJobQuarters implements JobContextConsumer {
 
+    @Getter private UCSBSubjectsService ucsbSubjectsService;
     @Getter private String quarterYYYYQ;
     @Getter private UCSBCurriculumService ucsbCurriculumService;
     @Getter private ConvertedSectionCollection convertedSectionCollection;
-    @Getter private List<String> subjects;
+    
 
     @Override
     public void accept(JobContext ctx) throws Exception {
-        for (String subjectArea : subjects) {
+        ctx.log("Updating courses for [" + quarterYYYYQ + "]");
+        List<UCSBSubject> subjects = ucsbSubjectsService.get();
+        for (UCSBSubject subject : subjects) {
+            String subjectArea = subject.getSubjectCode();
             ctx.log("Updating courses for [" + subjectArea + " " + quarterYYYYQ + "]");
-
             List<ConvertedSection> convertedSections = ucsbCurriculumService.getConvertedSections(subjectArea, quarterYYYYQ,
                     "A");
 
@@ -62,7 +67,7 @@ public class UpdateCourseDataJobQuarters implements JobContextConsumer {
         
             ctx.log(String.format("%d new sections saved, %d sections updated, %d errors", newSections, updatedSections,
                     errors));
-            ctx.log("Courses for [" + subjectArea + " " + quarterYYYYQ + "] have been updated");
+            ctx.log("Courses for [" + quarterYYYYQ + "] have been updated");
         }
     }
 }
