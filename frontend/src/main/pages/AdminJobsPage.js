@@ -56,6 +56,27 @@ const AdminJobsPage = () => {
         console.log("submitUpdateCoursesJob, data=", data);
         updateCoursesJobMutation.mutate(data);
     }
+// here
+    const objectToAxiosParamsUpdateCoursesQuarterJob = (data) => ({
+        url: `/api/jobs/launch/updateCoursesQuarters?quarterYYYYQ=${data.quarter}`,
+        method: "POST"
+    });
+
+    // Stryker disable all
+    const updateCoursesQuarterJobMutation = useBackendMutation(
+        objectToAxiosParamsUpdateCoursesQuarterJob,
+        {},
+        ["/api/jobs/all"]
+    );
+
+    
+    // Stryker enable all
+
+    const submitUpdateCoursesQuarterJob = async (data) => {
+        console.log("submitUpdateCoursesQuarterJob, data=", data);
+        updateCoursesQuarterJobMutation.mutate(data);
+    }
+// to here
 
 
     // Stryker disable all 
@@ -82,7 +103,7 @@ const AdminJobsPage = () => {
         },
         {
             name: "Update Courses Database By Quarter Only",
-            form: <UpdateCoursesQuarterJobForm callback={submitUpdateCoursesJob}  />
+            form: <UpdateCoursesQuarterJobForm callback={submitUpdateCoursesQuarterJob}  />
         },
         {
             name: "Update Grade Info",
