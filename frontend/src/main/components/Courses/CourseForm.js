@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import SinglePersonalScheduleDropdown from "../PersonalSchedules/SinglePersonalScheduleDropdown";
 import { useBackend } from "main/utils/useBackend";
 
+let initialState = true;
+let initialRender = true;
+
 function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
 
     const { data: personalSchedules, error: _error, status: _status } =
@@ -15,7 +18,23 @@ function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
         []
     );
 
-    const localPersonalSchedule = localStorage.getItem("CourseForm-psId");
+    if(initialState && personalSchedules[0] != null){
+        setTimeout(() => {  
+            localStorage.setItem("CourseForm-psId", personalSchedules[0].id);
+            initialState = false;
+        }, 200);
+    }
+
+    let localPersonalSchedule;
+    if(initialRender){
+        setTimeout(() => {  
+            localPersonalSchedule = localStorage.getItem("CourseForm-psId");
+            initialRender = false;
+        }, 250);
+    }
+    else{
+        localPersonalSchedule = localStorage.getItem("CourseForm-psId");
+    }
 
     const [personalSchedule, setPersonalSchedule] = useState(localPersonalSchedule || {});
 
@@ -67,7 +86,7 @@ function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
 
             <Form.Group className="mb-3" data-testid="CourseForm-psId">
                 <SinglePersonalScheduleDropdown
-                    personalSchedule={personalSchedule.id}
+                    personalSchedule={personalSchedule}
                     setPersonalSchedule={setPersonalSchedule} 
                     controlId={"CourseForm-psId"}
                     label={"Personal Schedule"}

@@ -2,6 +2,8 @@ import { yyyyqToQyy } from "main/utils/quarterUtilities";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
+let initialRender = true;
+
 const SinglePersonalScheduleDropdown = ({
   personalSchedules,
   personalSchedule,
@@ -10,7 +12,17 @@ const SinglePersonalScheduleDropdown = ({
   onChange = null,
   label = "Personal Schedule",
 }) => {
-  const localSearchPersonalSchedule = localStorage.getItem(controlId);
+
+  let localSearchPersonalSchedule;
+  if(initialRender){
+    setTimeout(() => {  
+      localSearchPersonalSchedule = localStorage.getItem(controlId);
+      initialRender = false;
+    }, 300);
+  }
+  else{
+    localSearchPersonalSchedule = localStorage.getItem(controlId);
+  }
 
   const [personalScheduleState, setPersonalScheduleState] = useState(
     // Stryker disable next-line all : not sure how to test/mock local storage
