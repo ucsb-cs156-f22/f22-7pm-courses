@@ -9,12 +9,19 @@ export default function PersonalSectionsTable({ personalSections }) {
 
     // Stryker enable all 
     // Stryker disable BooleanLiteral
+    const removeSuffix = (s) => {
+        if (s.charAt(s.length - 2) === '-') {
+            return s.substring(0, s.length - 2);
+        }
+        return s;
+    };
+
     const columns = [
         {
             Header: 'Course ID',
             accessor: 'courseId',
 
-            Cell: ({ cell: { value } }) => value.substring(0, value.length-2)
+            Cell: ({ cell: { value } }) => removeSuffix(value)
         },
         {
             Header: 'Enroll Code',
