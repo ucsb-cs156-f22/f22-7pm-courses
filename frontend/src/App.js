@@ -58,7 +58,7 @@ function App() {
           )
         }
         <Route exact path="/coursesearches/search" element={<BasicCourseSearchPage />} />
-        <Route exact path="/coursesearches/search-by-time" element={<CourseHistoryPage />} />
+        <Route exact path="/coursesearches/searchbytime" element={<CourseHistoryPage />} />
         
       </Routes>
     </BrowserRouter>

@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { Jumbotron } from "react-bootstrap";
+
 import BasicCourseTable from "main/components/Courses/BasicCourseTable";
 import CourseSearchCourseStartEndQtr from "main/components/BasicCourseSearch/CourseSearchCourseStartEndQtr";
 import fetch from "isomorphic-unfetch";
+import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 
 import TableLegend from "main/components/BasicCourseSearch/TableLegend";
 
@@ -35,7 +36,7 @@ const CourseHistoryPage = () => {
     };
 
     return (
-        <Jumbotron>
+        <BasicLayout>
             <div className="text-left">
                 <h2>Search Archived Course Data from MongoDB</h2>
                 <h5>Search By Course Number Across a Range of Quarters</h5>
@@ -46,7 +47,7 @@ const CourseHistoryPage = () => {
 
                 <BasicCourseTable classes={courseJSON.classes} checks={[cancelled,closed,full]} displayQuarter allowExport={true}/>
             </div>
-        </Jumbotron>
+        </BasicLayout>
     ); 
 };
 

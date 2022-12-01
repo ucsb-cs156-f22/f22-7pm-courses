@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Form, Button} from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
 import { quarterRange } from "main/utils/quarterUtilities";
-import SelectQuarter from "main/components/BasicCourseSearch/SelectQuarter";
-import SelectSubject from "./SelectSubject";
-import { allTheSubjects } from "main/fixtures/Courses/subjectFixtures";
-import { fetchSubjectAreas } from "main/services/subjectAreaService";
-import useSWR from "swr";
-
+import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
+import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown";
+import { useBackend  } from "main/utils/useBackend";
 
 const CourseSearchCourseStartEndQtr = ({ setCourseJSON, fetchJSON }) => {
     
@@ -20,21 +17,28 @@ const CourseSearchCourseStartEndQtr = ({ setCourseJSON, fetchJSON }) => {
     const { addToast } = useToasts()
     const [errorNotified, setErrorNotified] = useState(false);
 
-    const { data: subjects, error: errorGettingSubjects } = useSWR(
-		"/api/public/subjects",
-		fetchSubjectAreas,
-		{
-			initialData: allTheSubjects,
-			revalidateOnMount: true,
-		}
-	);
+    // const { data: subjects, error: _error } = useSWR(
+	// 	"/api/public/subjects",
+	// 	fetchSubjectAreas,
+	// 	{
+	// 		initialData: allTheSubjects,
+	// 		revalidateOnMount: true,
+	// 	}
+	// );
+    const { data: subjects, error: _error, status: _status } =
+  useBackend(
+    // Stryker disable next-line all : don't test internal caching of React Query
+    ["/api/UCSBSubjects/all"], 
+    { method: "GET", url: "/api/UCSBSubjects/all" }, 
+    []
+  );
 
     useEffect(() => {
-		if (!errorNotified && errorGettingSubjects) {
-			addToast(`${errorGettingSubjects}`, { appearance: "error" });
+		if (!errorNotified && _error) {
+			addToast(`${_error}`, { appearance: "error" });
 			setErrorNotified(true);
 		}
-	}, [errorGettingSubjects, errorNotified, addToast]);
+	}, [_error, errorNotified, addToast]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -72,7 +76,7 @@ const CourseSearchCourseStartEndQtr = ({ setCourseJSON, fetchJSON }) => {
     // One example is Zoology
     return (
         <Form onSubmit={handleSubmit}>
-            <SelectQuarter
+            <SingleQuarterDropdown
                 quarters={quarters}
                 quarter={startQuarter}
                 setQuarter={setStartQuarter}
@@ -80,14 +84,14 @@ const CourseSearchCourseStartEndQtr = ({ setCourseJSON, fetchJSON }) => {
                 label={"Start Quarter"}
             />
 
-            <SelectQuarter
+            <SingleQuarterDropdown
                 quarters={quarters}
                 quarter={endQuarter}
                 setQuarter={setEndQuarter}
                 controlId={"CourseNameSearch.EndQuarter"}
                 label={"End Quarter"}
             />
-            <SelectSubject
+            <SingleSubjectDropdown
 				subjects={subjects}
 				subject={subject}
 				setSubject={handleSubjectOnChange}
