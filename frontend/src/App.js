@@ -22,6 +22,7 @@ import CoursesCreatePage from "main/pages/Courses/PSCourseCreatePage";
 
 import BasicCourseSearchPage from "main/pages/BasicCourseSearch/BasicCourseSearchIndexPage";
 
+import CourseHistoryPage from "main/pages/CourseHistoryPage";
 
 function App() {
 
@@ -52,10 +53,13 @@ function App() {
               <Route exact path="/courses/list" element={<CoursesIndexPage />} />
               <Route exact path="/courses/create" element={<CoursesCreatePage />} />
               <Route exact path="/personalschedules/details/:id" element={<PersonalSchedulesDetailsPage />} />
+              
             </>
           )
         }
         <Route exact path="/coursesearches/search" element={<BasicCourseSearchPage />} />
+        <Route exact path="/coursesearches/search-by-time" element={<CourseHistoryPage />} />
+        
       </Routes>
     </BrowserRouter>
   );
