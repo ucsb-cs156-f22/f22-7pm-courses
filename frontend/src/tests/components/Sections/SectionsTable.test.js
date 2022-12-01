@@ -100,7 +100,7 @@ describe("Section tests", () => {
       expect(screen.getByTestId(`${testId}-cell-row-1-col-section.section`)).toHaveTextContent("");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-time`)).toHaveTextContent("3:00 PM - 3:50 PM");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-days`)).toHaveTextContent("M");
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100 (84%)");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-location`)).toHaveTextContent("BUCHN 1930");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-instructor`)).toHaveTextContent("WANG L C");
       expect(screen.getByTestId(`${testId}-cell-row-0-col-section.enrollCode`)).toHaveTextContent("12583");
@@ -142,8 +142,9 @@ describe("Section tests", () => {
       const expandRow = screen.getByTestId(`${testId}-cell-row-1-col-courseInfo.courseId-expand-symbols`)
       fireEvent.click(expandRow);
 
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-enrolled`)).toHaveTextContent("84/100");
-      expect(screen.getByTestId(`${testId}-cell-row-2-col-enrolled`)).toHaveTextContent("21/21");
+      expect(screen.getByTestId(`${testId}-cell-row-1-col-enrolled`)).toHaveTextContent("84/80 (105%)");
+      expect(screen.getByTestId(`${testId}-cell-row-2-col-enrolled`)).toHaveTextContent("21/21 (100%)");
+
   });
 
 
