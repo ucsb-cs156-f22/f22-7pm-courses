@@ -60,7 +60,7 @@ public class UCSBCurriculumService {
 
     public static final String SECTION_ENDPOINT = "https://api.ucsb.edu/academics/curriculums/v1/classsection/{quarter}/{enrollcode}";
 
-    public String getJSON(String subjectArea, String quarter, String courseLevel) {
+    public String getJSON(String subjectArea,String quarter, String courseLevel) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -99,7 +99,7 @@ public class UCSBCurriculumService {
         return retVal;
     }
 
-    public List<ConvertedSection> getConvertedSections(String subjectArea, String quarter, String courseLevel)
+    public List<ConvertedSection> getConvertedSections(String subjectArea,String quarter, String courseLevel)
             throws JsonProcessingException {
         String json = getJSON(subjectArea, quarter, courseLevel);
         CoursePage coursePage = objectMapper.readValue(json, CoursePage.class);
