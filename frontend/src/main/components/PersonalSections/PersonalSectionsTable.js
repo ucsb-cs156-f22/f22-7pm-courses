@@ -10,7 +10,7 @@ export default function PersonalSectionsTable({ personalSections }) {
     // Stryker enable all 
     // Stryker disable BooleanLiteral
     const removeSuffix = (s) => {
-        if (s.charAt(s.length - 2) == '-') {
+        if (s.charAt(s.length - 2) === '-') {
             return s.substring(0, s.length - 2);
         }
         return s;
