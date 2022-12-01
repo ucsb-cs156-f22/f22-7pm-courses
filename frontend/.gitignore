@@ -1,25 +1,57 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+## emacs ##
+*~
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Stryker reports
 
-# testing
-/coverage
+frontend/.stryker-tmp
+/.stryker-tmp
+frontend/reports
 
-# production
-/build
+.history
+frontend/strykerTmp
+/.stryker-tmp
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Don't check in a built storybook #
+.history
+frontend/storybook-static
+.history
+# If a package-lock.json shows up in top level dir, don't store it in github
+# Only keep the one under frontend/
 
-strykerTmp
+package-lock.json
+!frontend/package-lock.json
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Maven
+
+/target
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Local Configuration ###
+.env
