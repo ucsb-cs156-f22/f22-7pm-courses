@@ -12,8 +12,8 @@ const UpdateCoursesQuarterJobForm = ({ callback }) => {
   const { data: systemInfo } = useSystemInfo();
 
   // Stryker disable OptionalChaining
-  const startQtr = systemInfo?.startQtrYYYYQ || "20211";
-  const endQtr = systemInfo?.endQtrYYYYQ || "20214";
+  const startQtr = systemInfo?.startQtrYYYYQ;
+  const endQtr = systemInfo?.endQtrYYYYQ;
   // Stryker enable OptionalChaining
 
   const quarters = quarterRange(startQtr, endQtr);
