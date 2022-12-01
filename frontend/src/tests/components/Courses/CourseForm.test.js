@@ -79,34 +79,34 @@ describe("CourseForm tests", () => {
         
     });
 
-    // test("No Error messages on good input", async () => {
-    //     const mockSubmitAction = jest.fn();
+    test("No Error messages on good input", async () => {
+        const mockSubmitAction = jest.fn();
 
-    //     render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <Router>
-    //                 <CourseForm submitAction={mockSubmitAction} />
-    //             </Router>
-    //         </QueryClientProvider>
-    //     );
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <CourseForm submitAction={mockSubmitAction} />
+                </Router>
+            </QueryClientProvider>
+        );
 
-    //     expect(await screen.findByTestId("CourseForm-psId")).toBeInTheDocument();
+        expect(await screen.findByTestId("CourseForm-psId")).toBeInTheDocument();
 
-    //     const selectPsId = screen.getByLabelText("Personal Schedule");
-    //     userEvent.selectOptions(selectPsId, "13");
-    //     const enrollCd = screen.getByTestId("CourseForm-enrollCd");
-    //     const submitButton = screen.getByTestId("CourseForm-submit");
+        const selectPsId = screen.getByLabelText("Personal Schedule");
+        userEvent.selectOptions(selectPsId, "13");
+        const enrollCd = screen.getByTestId("CourseForm-enrollCd");
+        const submitButton = screen.getByTestId("CourseForm-submit");
 
-    //     fireEvent.change(selectPsId, { target: { value: '13' } });
-    //     fireEvent.change(enrollCd, { target: { value: '20124' } });
-    //     fireEvent.click(submitButton);
+        fireEvent.change(selectPsId, { target: { value: '13' } });
+        fireEvent.change(enrollCd, { target: { value: '20124' } });
+        fireEvent.click(submitButton);
 
-    //     await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
+        await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-    //     expect(screen.queryByText(/Enroll Code is required./)).not.toBeInTheDocument();
-    //     expect(selectPsId.value).toBe("13");
-    //     expect(enrollCd).toHaveValue("20124");
-    // });
+        expect(screen.queryByText(/Enroll Code is required./)).not.toBeInTheDocument();
+        expect(selectPsId.value).toBe("13");
+        expect(enrollCd).toHaveValue("20124");
+    });
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
         render(

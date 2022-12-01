@@ -86,7 +86,7 @@ function CourseForm({ initialCourse, submitAction, buttonLabel = "Create" }) {
 
             <Form.Group className="mb-3" data-testid="CourseForm-psId">
                 <SinglePersonalScheduleDropdown
-                    personalSchedule={personalSchedule}
+                    personalSchedule={personalSchedule.id}
                     setPersonalSchedule={setPersonalSchedule} 
                     controlId={"CourseForm-psId"}
                     label={"Personal Schedule"}
