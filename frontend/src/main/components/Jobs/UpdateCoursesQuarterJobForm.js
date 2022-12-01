@@ -54,7 +54,7 @@ const UpdateCoursesQuarterJobForm = ({ callback }) => {
         <Row style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Col md="auto">
             <Button variant="primary" type="submit">
-              Update Courses
+              Update Courses for Quarter
             </Button>
           </Col>
         </Row>
