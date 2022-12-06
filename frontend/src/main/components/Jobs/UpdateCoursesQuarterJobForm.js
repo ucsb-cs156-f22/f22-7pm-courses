@@ -20,6 +20,7 @@ const UpdateCoursesQuarterJobForm = ({ callback }) => {
 
   // Stryker disable all : not sure how to test/mock local storage
   const localQuarter = localStorage.getItem("BasicSearch.Quarter");
+  // Stryker enable all
 
   const { data: _subjects, error: _error, status: _status } =
   useBackend(
@@ -38,6 +39,10 @@ const UpdateCoursesQuarterJobForm = ({ callback }) => {
   };
 
   // Stryker disable all : Stryker is testing by changing the padding to 0. But this is simply a visual optimization as it makes it look better
+
+  const padding = { paddingTop: 10, paddingBottom: 10 }
+  // Stryker enable all
+  
   return (
     <Form onSubmit={handleSubmit}>
       <Container>
@@ -51,7 +56,7 @@ const UpdateCoursesQuarterJobForm = ({ callback }) => {
             />
           </Col>
         </Row>
-        <Row style={{ paddingTop: 10, paddingBottom: 10 }}>
+        <Row style={{ padding }}>
           <Col md="auto">
             <Button variant="primary" type="submit">
               Update Courses for Quarter
