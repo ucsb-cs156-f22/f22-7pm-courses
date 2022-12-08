@@ -104,5 +104,86 @@ describe("PersonalSchedulesCreatePage tests", () => {
         expect(mockNavigate).toBeCalledWith({ "to": "/personalschedules/list" });
     });
 
+    test("when you fill in a duplicate name and quarter, it shows a popup warning", async () => {
+
+        const queryClient = new QueryClient();
+        const expectedResponse = { type: "NameAndQuarterExistsException", message: "Name and Quarter are invalid (There already exists a schedule named SampName during 20222)" };
+
+        axiosMock.onPost("/api/personalschedules/post").reply( 400, expectedResponse );
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PersonalSchedulesCreatePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(await screen.findByTestId("PersonalScheduleForm-name")).toBeInTheDocument();
+        
+        const nameField = screen.getByTestId("PersonalScheduleForm-name");
+        const descriptionField = screen.getByTestId("PersonalScheduleForm-description");
+        const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
+        const submitButton = screen.getByTestId("PersonalScheduleForm-submit");
+
+        fireEvent.change(nameField, { target: { value: 'SampName' } });
+        fireEvent.change(descriptionField, { target: { value: 'desc' } });
+        fireEvent.change(quarterField, { target: { value: '20222' } });
+
+        expect(submitButton).toBeInTheDocument();
+
+        fireEvent.click(submitButton);
+
+        expect(axiosMock.history.post.length).toBe(0);
+
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+
+        expect(quarterField).toHaveValue("20222");
+
+        expect(mockToast).toHaveBeenCalledTimes(1);
+        expect(mockToast).toBeCalledWith("Name and Quarter are invalid (There already exists a schedule named SampName during 20222)");
+    });
+
+    test("when you get some generic error, it shows a popup warning", async () => {
+
+        const queryClient = new QueryClient();
+        const expectedResponse = { config: { method: "post", url: "/api/personalschedules/post" } };
+
+        axiosMock.onPost("/api/personalschedules/post").reply( 400, expectedResponse );
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PersonalSchedulesCreatePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(await screen.findByTestId("PersonalScheduleForm-name")).toBeInTheDocument();
+        
+        const nameField = screen.getByTestId("PersonalScheduleForm-name");
+        const descriptionField = screen.getByTestId("PersonalScheduleForm-description");
+        const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
+        const submitButton = screen.getByTestId("PersonalScheduleForm-submit");
+
+        fireEvent.change(nameField, { target: { value: 'SampName' } });
+        fireEvent.change(descriptionField, { target: { value: 'desc' } });
+        fireEvent.change(quarterField, { target: { value: '20222' } });
+
+        expect(submitButton).toBeInTheDocument();
+
+        fireEvent.click(submitButton);
+
+        expect(axiosMock.history.post.length).toBe(0);
+
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+
+        expect(quarterField).toHaveValue("20222");
+
+        expect(mockToast).toHaveBeenCalledTimes(1);
+        expect(mockToast).toBeCalledWith("Error communicating with backend via post on /api/personalschedules/post");
+    });
 
 });

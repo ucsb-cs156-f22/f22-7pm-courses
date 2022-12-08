@@ -2,7 +2,8 @@ import React from "react";
 import { useTable, useGroupBy, useExpanded } from 'react-table'
 import { Table } from "react-bootstrap";
 
-
+const COURSE_ID_COLUMN = 0;
+const ENROLLED_NUM_COLUMN = 4;
 // Stryker disable StringLiteral, ArrayDeclaration
 export default function SectionsTableBase({ columns, data, testid = "testid"}) {
   
@@ -30,7 +31,7 @@ export default function SectionsTableBase({ columns, data, testid = "testid"}) {
           prepareRow(row)
           return (
             <>
-            {row.cells[0].isGrouped || (!row.cells[0].isGrouped && row.allCells[3].value) ? 
+            {row.cells[COURSE_ID_COLUMN].isGrouped || (!row.cells[COURSE_ID_COLUMN].isGrouped && row.allCells[ENROLLED_NUM_COLUMN].value) ? 
             <tr {...row.getRowProps()}>
               {row.cells.map((cell, _index) => {
                 return (

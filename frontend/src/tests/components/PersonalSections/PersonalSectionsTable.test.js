@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { fiveSections } from "fixtures/personalSectionsFixtures";
+import { fiveSections, sectionSuffix, sectionNoSuffix } from "fixtures/personalSectionsFixtures";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import PersonalSectionsTable from "main/components/PersonalSections/PersonalSectionsTable";
@@ -67,5 +67,61 @@ describe("PersonalSections tests", () => {
   });
 
 
+  test("Has the expected Course ID when courseId has suffix", async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <PersonalSectionsTable personalSections={sectionSuffix} />
+        </MemoryRouter>
+      </QueryClientProvider>
+      );
+
+      const expectedHeaders = ["Course ID", "Enroll Code", "Section","Title", "Enrolled", "Location", "Days", "Time", "Instructor"];
+      const expectedFields = ["courseId", "classSections[0].enrollCode", "classSections[0].section","title", "enrolled", "location", "days", "time", "instructor"];
+      const testId = "PersonalSectionsTable";
+
+      expectedHeaders.forEach((headerText) => {
+        const header = screen.getByText(headerText);
+        expect(header).toBeInTheDocument();
+      });
+
+
+      expectedFields.forEach((field) => {
+        const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
+        expect(header).toBeInTheDocument();
+      });
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 1A");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).not.toHaveTextContent("ECE 1A -1"); // covers mutation of not successfully removing all whitespaces
+
+  });
+
+
+  test("Has the expected Course ID when courseId does not have suffix", async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <PersonalSectionsTable personalSections={sectionNoSuffix} />
+        </MemoryRouter>
+      </QueryClientProvider>
+      );
+
+      const expectedHeaders = ["Course ID", "Enroll Code", "Section","Title", "Enrolled", "Location", "Days", "Time", "Instructor"];
+      const expectedFields = ["courseId", "classSections[0].enrollCode", "classSections[0].section","title", "enrolled", "location", "days", "time", "instructor"];
+      const testId = "PersonalSectionsTable";
+
+      expectedHeaders.forEach((headerText) => {
+        const header = screen.getByText(headerText);
+        expect(header).toBeInTheDocument();
+      });
+
+
+      expectedFields.forEach((field) => {
+        const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
+        expect(header).toBeInTheDocument();
+      });
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ECE 1A");
+      expect(screen.getByTestId(`${testId}-cell-row-0-col-courseId`)).not.toHaveTextContent("ECE 1A -1"); // covers mutation of not successfully removing all whitespaces
+
+  });
 });
 

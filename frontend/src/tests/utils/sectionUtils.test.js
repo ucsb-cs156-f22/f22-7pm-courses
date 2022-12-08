@@ -1,5 +1,7 @@
 import {convertToFraction, formatLocation, isSection, formatDays, formatTime, formatInstructors} from "main/utils/sectionUtils"
 
+import { boldIfNotSection, fraction_w_percent } from "main/utils/sectionUtils";
+
 const testTimeLocations = [
     {
       "room": "1",
@@ -49,9 +51,29 @@ const testInstructors = [
     }
 ]
 
+describe("To bold tests", () => {
+    test("If correct number bolds", () => {
+        expect(boldIfNotSection("2000")).toStrictEqual(<div style={{fontWeight: "bold"}}>2000</div>);
+        expect(() => {boldIfNotSection("abc"); }).toThrow("The parameter must be a number!");
+        expect(boldIfNotSection("2002")).toBe("2002");
+    });
+});
+
 describe ("section utils tests", () => {
+
+    test("fraction with percent test", () => {
+        expect(fraction_w_percent(null, null)).toBe("");
+        expect(fraction_w_percent(null, "44")).toBe("44");
+        expect(fraction_w_percent("10", "100")).toBe("10/100 (10%)");
+        expect(fraction_w_percent('2', null)).toBe("");
+    });
+
     test("convertToFraction one null test 1" , () => {
         expect(convertToFraction(null, "100")).toBe("");
+    }); 
+
+    test("convertToFraction one null test 3" , () => {
+        expect(convertToFraction("10", "100")).toBe("10/100");
     }); 
 
     test("convertToFraction one null test 2" , () => {

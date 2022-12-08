@@ -20,9 +20,19 @@ export default function PersonalSchedulesCreatePage() {
     toast(`New personalSchedule Created - id: ${personalSchedule.id} name: ${personalSchedule.name}`);
   }
 
+  const onError = (error) => {
+    if (error.response.data.type === "NameAndQuarterExistsException") {
+      toast(error.response.data.message);
+    }
+    else {            
+      const errorMessage = `Error communicating with backend via ${error.response.config.method} on ${error.response.config.url}`;
+      toast(errorMessage);
+    }
+  }
+
   const mutation = useBackendMutation(
     objectToAxiosParams,
-     { onSuccess }, 
+     { onSuccess, onError }, 
      // Stryker disable next-line all : hard to set up test for caching
      ["/api/personalschedules/all"]
      );
