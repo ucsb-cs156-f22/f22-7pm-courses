@@ -8,6 +8,8 @@ import JobComingSoon from "main/components/Jobs/JobComingSoon";
 
 import { useBackendMutation } from "main/utils/useBackend";
 import UpdateCoursesJobForm from "main/components/Jobs/UpdateCoursesJobForm";
+import UpdateCoursesQuarterJobForm from "main/components/Jobs/UpdateCoursesQuarterJobForm";
+
 
 const AdminJobsPage = () => {
 
@@ -46,12 +48,31 @@ const AdminJobsPage = () => {
         {},
         ["/api/jobs/all"]
     );
+
+    
     // Stryker enable all
 
     const submitUpdateCoursesJob = async (data) => {
         console.log("submitUpdateCoursesJob, data=", data);
         updateCoursesJobMutation.mutate(data);
     }
+
+    const objectToAxiosParamsUpdateCoursesQuarterJob = (data) => ({
+        url: `/api/jobs/launch/updateCoursesQuarters?quarterYYYYQ=${data.quarter}`,
+        method: "POST"
+    });
+
+    const updateCoursesQuarterJobMutation = useBackendMutation(
+        objectToAxiosParamsUpdateCoursesQuarterJob,
+        {},
+        ["/api/jobs/all"]
+    );
+
+    const submitUpdateCoursesQuarterJob = async (data) => {
+        console.log("submitUpdateCoursesQuarterJob, data=", data);
+        updateCoursesQuarterJobMutation.mutate(data);
+    }
+
 
     // Stryker disable all 
     const { data: jobs, error: _error, status: _status } =
@@ -74,6 +95,10 @@ const AdminJobsPage = () => {
         {
             name: "Update Courses Database",
             form: <UpdateCoursesJobForm callback={submitUpdateCoursesJob}  />
+        },
+        {
+            name: "Update Courses Database By Quarter Only",
+            form: <UpdateCoursesQuarterJobForm callback={submitUpdateCoursesQuarterJob}  />
         },
         {
             name: "Update Grade Info",
@@ -106,3 +131,5 @@ const AdminJobsPage = () => {
 };
 
 export default AdminJobsPage;
+
+
